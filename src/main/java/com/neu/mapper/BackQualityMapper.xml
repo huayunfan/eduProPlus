@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.BackQualityMapper">
+    <insert id="addlessonbranch" parameterType="com.neu.beans.LessonBranch">
+        insert into lessonbranch(lid,branchid) value(#{lid},#{branchid})
+    </insert>
+    <select id="findQuality" resultType="com.neu.beans.Lesson">
+        select * FROM lesson where qid=#{qid} and status!='已删除'
+        order by lid
+		limit #{pageStart}, #{pageNumber}
+    </select>
+    <delete id="deletelessonbranch" parameterType="int">
+        delete from lessonbranch where lid=#{lid}
+    </delete>
+    <select id="findBranchIds" parameterType="int" resultType="int">
+        SELECT
+        lessonbranch.branchid
+        FROM
+        lessonbranch
+        LEFT JOIN address ON lessonbranch.branchid = address.id
+        where lessonbranch.lid=#{lid} and address.status!='已删除'
+    </select>
+    <select id="findBranchNames" parameterType="int" resultType="java.lang.String">
+        SELECT
+        address.branch
+        FROM
+        lessonbranch
+        LEFT JOIN address ON lessonbranch.branchid = address.id
+        where lessonbranch.lid=#{lid} and address.status!='已删除'
+    </select>
+    <update id="deleteQuality" parameterType="int">
+        update lesson set status='已删除' where lid=#{lid}
+        
+    </update>
+    <select id="finQualityById" parameterType="int" resultType="com.neu.beans.Lesson">
+        select * from lesson where lid=#{lid}
+    </select>
+    <select id="findCategory" parameterType="int" resultType="java.lang.String">
+        select category from lesson where qid=#{qid} group by category
+    </select>
+    <insert id="addQuality" parameterType="com.neu.beans.Lesson" useGeneratedKeys="true" keyProperty="lid">
+        insert into lesson(lname,imgurl,lprice,ldesc,category,status,qid,pubtime)
+        value(#{lname},#{imgurl},#{lprice},#{ldesc},#{category},#{status},#{qid},#{pubtime})
+    </insert>
+    <update id="editQuality" parameterType="com.neu.beans.Lesson">
+        update lesson set
+        lname=#{lname},imgurl=#{imgurl},ldesc=#{ldesc},status=#{status},lprice=#{lprice},category=#{category} where
+        lid=#{lid}
+    </update>
+    
+    <select id = "getPageNumber" resultType = "int">
+    	select count(*)
+    	from lesson
+    	where qid=#{qid} and status!='已删除'
+    </select>
+</mapper>

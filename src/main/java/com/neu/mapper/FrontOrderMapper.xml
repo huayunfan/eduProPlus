@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.FrontOrderMapper">
+
+<select id="getOrderByOpenid" resultType="com.neu.beans.SOrder" parameterType="String">
+	SELECT * FROM sorder WHERE  `openid`= #{openid} order by ordertime desc
+</select>
+
+<select id="getLesssonById" resultType="com.neu.beans.Lesson" parameterType="int" >
+    	SELECT * FROM lesson WHERE lid = #{lid}
+</select>
+
+<select id="getLessonAdderss" resultType="com.neu.beans.Address" parameterType="int">
+    	SELECT * FROM address WHERE id = #{branchid}
+</select>
+
+<delete id="deleteorderbyoid" parameterType="int">
+      delete  from sorder where oid=#{oid}
+</delete>
+
+<update id="paybyoid" parameterType="int">
+     update sorder set status='已付款' where oid=#{oid}
+</update>
+
+<update id="cancelbyoid" parameterType="int">
+      update sorder set status='退款中' where oid=#{oid}
+</update>
+
+</mapper>

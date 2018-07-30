@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/class-detail.css">
+		<link rel="stylesheet" href="css/icons-extra.css">
+
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+		</style>
+
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=RRjhtVzUCi4IkW324GgWHPa6q3ntuYhb"></script>
+		<script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
+		<script src="js/mui.min.js"></script>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">课程详情</h1>
+		</header>
+
+		<div class="mui-content">
+
+			<div class="class_detail_info">
+				<div class="class_detail_address" id="address">门店地址：</div>
+				<div class="class_detail_tel" id="tel">Tel:13569680110</div>
+			</div>
+
+			<div id="allmap"></div>
+
+			<div class="map_up">
+				<div class="map_up_word">点击查看详情<span class="mui-icon mui-icon-arrowup"></span></div>
+			</div>
+
+			<div class="map_bottom">
+				<div id="lesson-title2">
+					<!-- 课程名字 -->
+				</div>
+				<button  onclick="jumpToOrderView()" type="button" style=" height: 30px; margin: 11.5px 5px 11.5px auto; float: right;" class="mui-btn mui-btn-warning mui-btn-outlined">预约</button>
+			</div>
+
+			<div class="class_detail" style=" display: none;">
+				<div class="map_down">
+					<div class="map_up_word">
+						点击收起<span class="mui-icon mui-icon-arrowdown"></span>
+					</div>
+				</div>
+				<div class="class_detail_title">
+					<div id="lesson-title">
+						<!-- 课程名字  -->
+					</div>
+					<button onclick="jumpToOrderView()" type="button" style=" height: 30px; margin: 11.5px 5px 11.5px auto; float: right;" class="mui-btn mui-btn-warning mui-btn-outlined">预约</button>
+				</div>
+
+				<div class="class_detail_word" id="text-context">
+
+					<!-- 这里放富文本  -->
+				</div>
+			</div>
+		</div>
+	</body>
+
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript" src="js/class_detail.js"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script>
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+	</script>
+	<script type="text/javascript">
+		
+		
+		
+		//将传来的值，变成json格式
+		function GetRequest() {
+			var url = location.search; //获取url中"?"符后的字串 
+			var theRequest = new Object();
+			if(url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for(var i = 0; i < strs.length; i++) {
+					theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+				}
+			}
+			return theRequest;
+		}
+		var request = new Object();
+		request = GetRequest();
+		var lid = request["lid"];
+		var branchid = request["branchid"];
+		console.log(lid);
+		console.log(branchid);
+		var longitude, latitude;
+		
+		function jumpToOrderView(){
+			
+			mui.openWindow("order-input.html?lid="+lid+"&branchid="+branchid);
+		}
+//		var str = location.href;
+//		console.log(str);
+//		var index = str.indexOf("=");
+//		var id = str.substr(index + 1);
+		
+		
+		$(function() {
+			$.ajax({
+				type: "get",
+				url: "/front/findLessonById?lid=" + lid+"&branchid="+branchid,
+				async: true,
+				success: seccessFunction
+			});
+		})
+
+		function seccessFunction(data) {
+			console.log(data);
+			console.log(data.lesson.ldesc);
+			$('#text-context').html(data.lesson.ldesc);
+
+			$('#lesson-title').text(data.lesson.lname);
+			$('#lesson-title2').text(data.lesson.lname);
+
+			$('#address').text("门店地址：" + data.address.address);
+			$('#tel').text("Tel：" + data.address.tel);
+
+			/* 地图显示 */
+			longitude = data.address.longitude;
+			latitude = data.address.latitude;
+			console.log(longitude);
+			console.log(latitude);
+
+			var map = new BMap.Map("allmap");
+			map.centerAndZoom(new BMap.Point(longitude, latitude), 19);
+			map.enableScrollWheelZoom(true);
+			var new_point = new BMap.Point(longitude, latitude);
+			var marker = new BMap.Marker(new_point);
+			map.addOverlay(marker);
+			map.panTo(new_point);
+			map.zoomOut();
+			map.zoomOut();
+			map.zoomOut();
+			map.zoomOut(); //缩放比例
+			var top_left_control = new BMap.ScaleControl({
+				anchor: BMAP_ANCHOR_TOP_LEFT
+			}); // 左上角，添加比例尺 
+			map.addControl(top_left_control);
+			//		var top_left_navigation = new BMap.NavigationControl(); //左上角，添加默认缩放平移控件 
+			//		map.addControl(top_left_navigation);
+
+		}
+	</script>
+
+</html>

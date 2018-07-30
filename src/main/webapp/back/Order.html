@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>后台系统</title>
+    <link rel="stylesheet" href="css/layui.css">
+    <script src = "js/jquery-3.3.1.js"></script>
+    <style>
+        body {
+            background-color: #F2F2F2;
+        }
+
+        .inputStyle {
+            height: 2/34px;
+            width: 80px;
+            line-height: 20px;
+            padding: 0 0px;
+            margin: 0 0px;
+            border-radius: 5px;
+        }
+
+        .inputTimeStyle {
+            height: 2/34px;
+            width: 130px;
+            line-height: 20px;
+            padding: 0 0px;
+            margin: 0 0px;
+            border-radius: 5px;
+        }
+
+        .inputButton {
+            height: 25px;
+            line-height: 24px;
+            padding: 0 38px;
+            margin: 0 40px;
+           	border-radius: 5px;
+            display: inline-block;
+        }
+
+        .layui-card-header span {
+            margin-left: 2.5%;
+        }
+
+        .layui-card-header button {
+            background: #ffffff;
+        }
+
+        .layui-card-header button:hover {
+            background: #F2F2F2;
+        }
+
+        .layui-card-body .tableStyle {
+            margin: 2%;
+            width: 96%;
+            border: 1px solid #d9d9d9;
+            border-collapse: collapse;
+            border-spacing: 0;
+            table-layout: fixed;
+        }
+
+        .layui-card-body .tableStyle th {
+            padding-left: 5px;
+            text-align: left;
+            height: 40px;
+            background-color: #f7f7f7;
+            background-position: 0 0;
+            background-repeat: repeat-x;
+            font-weight: normal;
+            font-size: 11px;
+            color: #666;
+            background: url(img/listHeadBackground.JPG) no-repeat;
+            background-size: 100% 100%;
+            border: 1px solid #d9d9d9;
+        }
+
+        .layui-card-body .tableStyle .th1 {
+            width: 5%;
+        }
+
+        .layui-card-body .tableStyle .th2 {
+            width: 10%;
+        }
+
+        .layui-card-body .tableStyle .th3 {
+            width: 10%;
+        }
+
+        .layui-card-body .tableStyle .th4 {
+            width: 10%;
+        }
+
+        .layui-card-body .tableStyle .th5 {
+            width: 4%;
+        }
+
+        .layui-card-body .tableStyle .th6 {
+            width: 5%;
+        }
+
+        .layui-card-body .tableStyle .th7 {
+            width: 5%;
+        }
+
+        .layui-card-body .tableStyle .th8 {
+            width: 5%;
+        }
+
+        .layui-card-body .tableStyle .th9 {
+            width: 10%;
+        }
+
+        .layui-card-body .tableStyle .th10 {
+            width: 20%;
+        }
+
+        .layui-card-body .tableStyle .trBackground {
+            padding-left: 10px;
+            text-align: left;
+            font-size: 11px;
+            background-color: #f7f7f7;
+            height: 25px;
+            line-height: 18px;
+
+        }
+
+        .layui-card-body .tableStyle .trBackground2 {
+            padding-left: 10px;
+            text-align: left;
+            font-size: 11px;
+            height: 25px;
+            line-height: 18px;
+
+        }
+
+        .layui-card-body .tableStyle .dealAll {
+            overflow: hidden;
+        }
+
+        .layui-card-body .tableStyle .dealAll .dealWord {
+            display: block;
+        }
+
+        .layui-card-body .tableStyle .dealAll .dealA {
+            display: none;
+        }
+
+        .layui-card-body .tableStyle .dealAll:hover .dealWord {
+            display: none;
+        }
+
+        .layui-card-body .tableStyle .dealAll:hover .dealA {
+            color: #D3D4D3;
+            display: block;
+        }
+        
+        /*CSS green-black style pagination*/ 
+        
+		DIV.green-black { 
+		    PADDING-RIGHT: 3px; 
+		    PADDING-LEFT: 3px; 
+		    PADDING-BOTTOM: 3px; 
+		    PADDING-TOP: 3px; 
+		    TEXT-ALIGN: center 
+		} 
+		
+		DIV.green-black A { 
+		    BORDER-RIGHT: #d9d9d9 1px solid; 
+		    padding: 5px 10px;
+		    BORDER-TOP: #d9d9d9  1px solid; 
+		    BACKGROUND: #FFFFFF; 
+		    BORDER-LEFT: #d9d9d9  1px solid; 
+		    COLOR: #000000; 
+		    MARGIN-RIGHT: 1px; 
+		    BORDER-BOTTOM: #d9d9d9  1px solid; 
+		    TEXT-DECORATION: none 
+		} 
+		
+		DIV.green-black A:hover { 
+		    BORDER-RIGHT: #009688 1px solid; 
+		    BORDER-TOP: #009688 1px solid; 
+		    BACKGROUND:#009688; 
+		    BORDER-LEFT: #009688 1px solid; 
+		    COLOR: #fff; 
+		    BORDER-BOTTOM: #009688 1px solid 
+		} 
+		
+		DIV.green-black A:active { 
+		    BORDER-RIGHT: #009688 1px solid; 
+		    BORDER-TOP: #009688 1px solid; 
+		    BACKGROUND: #009688; 
+		    BORDER-LEFT: #009688 1px solid; 
+		    COLOR: #fff; 
+		    BORDER-BOTTOM: #009688 1px solid 
+		} 
+		
+		DIV.green-black a.current { 
+		    BORDER-RIGHT: #009688 1px solid; 
+		    padding: 5px 10px;
+		    BORDER-TOP: #009688 1px solid; 
+		    FONT-WEIGHT: bold; 
+		    BACKGROUND:#009688; 
+		    BORDER-LEFT: #009688 1px solid; 
+		    COLOR: #fff; 
+		    MARGIN-RIGHT: 2px; 
+		    BORDER-BOTTOM: #009688 1px solid 
+		} 
+		/*前一页、后一页无任何css样式*/ 
+		DIV.green-black span.disabled {
+		    BORDER-RIGHT: #d9d9d9 1px solid; 
+		    PADDING: 5px 10px; 
+		    BORDER-TOP: #d9d9d9 1px solid;
+		    BORDER-LEFT: #d9d9d9 1px solid; 
+		    COLOR: #ccc; 
+		    MARGIN-RIGHT: 2px;
+		    BORDER-BOTTOM: #d9d9d9 1px solid 
+		} 
+
+    </style>
+
+
+    <script>
+    	var pageNmber = 0;//ajax获取页数
+		var currectPage = 1;
+    	var orderKey = null;
+    	var orderStatus = null;
+    	var orderStartTime = null;
+    	var orderEndTime = null;
+    	var func = 0;
+		window.onload = function getAllPageNumber(){
+			$.ajax({
+				url: "/back/getLessonNumber",
+				type: "get",
+				async: false,
+				success:function(data){
+					pageNmber = data;
+				}
+			})
+			getLessonOrder(currectPage);
+   			getPageNumber(currectPage);
+   			
+   		}
+		
+		function getLessonOrder(currectPage){
+			$.ajax({
+				url: "/back/getLessonOrder",
+				data: {"currectPage" : currectPage,
+					   "orderKey" : orderKey,
+					   "orderStatus" : orderStatus,
+					   "orderStartTime" : orderStartTime,
+					   "orderEndTime" : orderEndTime},
+   				type: "get",
+   				success:function (data){
+					console.log(data);
+					var table_body = '';
+					var count = 1;
+					for(var i = 0; i < data.length; i++){
+						for(var j = 0; j < data[i].sOrder.length; j++){
+							if(count % 2 == 1){
+								table_body += '<tr>';
+								table_body += '<td class="trBackground">';
+								table_body += data[i].lid;
+								table_body += "</td>";
+								table_body += '<td class="trBackground">';
+								table_body += data[i].lname;
+								table_body += '</td>';
+								table_body += '<td class="trBackground">';
+								table_body += data[i].sOrder[j].nickname;
+								table_body += '</td>';
+								table_body += '<td class="trBackground">';
+								table_body += data[i].sOrder[j].tel;
+								table_body += '</td>';
+								table_body += '<td class="trBackground">';
+								table_body += data[i].sOrder[j].total;
+								table_body += '</td>';
+								table_body += '<td class="trBackground">';
+								table_body += data[i].sOrder[j].cid;
+								table_body += '</td>';
+								table_body += '<td class="trBackground">';
+								table_body += data[i].sOrder[j].actual;
+								table_body += '</td>';
+								table_body += '<td class="trBackground">';
+								if(data[i].sOrder[j].status == "退款中"){
+									func = 1;
+									table_body += '<div class="dealAll">';
+									table_body += '<span class="dealWord">退款中</span>';
+									table_body += '<span class="dealA"><a class="layui-icon layui-icon-ok" style="font-size: 11px;" href="javascript:setState('+data[i].sOrder[j].oid+','+func+')">退款处理</a></span>';
+									table_body += '</div>';
+								}else if(data[i].sOrder[j].status == "已付款"){
+									func = 2;
+									table_body += '<div class="dealAll">';
+									table_body += '<span class="dealWord">已付款</span>';
+									table_body += '<span class="dealA"><a class="layui-icon layui-icon-ok" style="font-size: 11px;" href="javascript:setState('+data[i].sOrder[j].oid+','+func+')">订单核销</a></span>';
+									table_body += '</div>';
+								}else{
+									table_body += data[i].sOrder[j].status;
+								}
+								table_body += '</td>';
+								table_body += '<td class="trBackground">';
+								table_body += new Date(parseInt(data[i].sOrder[j].ordertime)).toLocaleString().replace(/:\d{1,2}$/,' ');
+								table_body += '</td>';
+								table_body += '<td class="trBackground">';
+								table_body += data[i].sOrder[j].transactionid;
+								table_body += '</td>';
+							}else{
+								table_body += '<tr>';
+								table_body += '<td class="trBackground2">';
+								table_body += data[i].lid;
+								table_body += "</td>";
+								table_body += '<td class="trBackground2">';
+								table_body += data[i].lname;
+								table_body += '</td>';
+								table_body += '<td class="trBackground2">';
+								table_body += data[i].sOrder[j].nickname;
+								table_body += '</td>';
+								table_body += '<td class="trBackground2">';
+								table_body += data[i].sOrder[j].tel;
+								table_body += '</td>';
+								table_body += '<td class="trBackground2">';
+								table_body += data[i].sOrder[j].total;
+								table_body += '</td>';
+								table_body += '<td class="trBackground2">';
+								table_body += data[i].sOrder[j].cid;
+								table_body += '</td>';
+								table_body += '<td class="trBackground2">';
+								table_body += data[i].sOrder[j].actual;
+								table_body += '</td>';
+								table_body += '<td class="trBackground2">';
+								if(data[i].sOrder[j].status == "退款中"){
+									func = 1;
+									table_body += '<div class="dealAll">';
+									table_body += '<span class="dealWord">退款中</span>';
+									table_body += '<span class="dealA"><a class="layui-icon layui-icon-ok" style="font-size: 11px;" href="javascript:setState('+data[i].sOrder[j].oid+','+func+')">退款处理</a></span>';
+									table_body += '</div>';
+								}else if(data[i].sOrder[j].status == "已付款"){
+									func = 2;
+									table_body += '<div class="dealAll">';
+									table_body += '<span class="dealWord">已付款</span>';
+									table_body += '<span class="dealA"><a class="layui-icon layui-icon-ok" style="font-size: 11px;" href="javascript:setState('+data[i].sOrder[j].oid+', '+func+')">订单核销</a></span>';
+									table_body += '</div>';
+								}else{
+									table_body += data[i].sOrder[j].status;
+								}
+								table_body += '</td>';
+								table_body += '<td class="trBackground2">';
+								table_body += new Date(parseInt(data[i].sOrder[j].ordertime)).toLocaleString().replace(/:\d{1,2}$/,' ');
+								table_body += '</td>';
+								table_body += '<td class="trBackground2">';
+								table_body += data[i].sOrder[j].transactionid;
+								table_body += '</td>';
+							}
+							count++;
+						}
+					}
+					$("#table_body").html(table_body);
+   				}
+			})
+		}
+		
+		
+		function setState(order_id, s_status){
+			alert(s_status);
+			$.ajax({
+				url: "/back/set",
+				data: {"order_id" : order_id,
+					   "s_status" : s_status},
+				type: "get"
+			})
+			getLessonOrder(currectPage);
+		}
+		
+		
+		
+		
+		//页码模块，需要与获取在尾部加上几个获取功能。
+	    function getPageNumber(currectPage){
+			var page_number = '';
+			if(pageNmber <= 9){
+				if(currectPage == 1){
+					page_number += '<span class="disabled">< Prev</span>';
+				}else{
+					page_number += '<a href="javascript:prev()">< Prev</a>';
+				}
+				for(var i = 1; i <= pageNmber; i++){
+					if(i == currectPage){
+						page_number += '<a class="current" href="">'+i+'</a>';
+					}else{
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+				}
+				if(currectPage == pageNmber){
+					page_number += '<span class="disabled">Next ></span>';
+				}else{
+					page_number += '<a href="javascript:next()">Next > </a>';
+				}
+			}else{
+				if(currectPage - 5 < 0){
+					if(currectPage == 1){
+						page_number += '<span class="disabled">< Prev</span>';
+					}else{
+						page_number = '<a href="javascript:prev()">< Prev</a>';
+					}
+					for(var i = 1; i <= 7; i++){
+						if(i == currectPage){
+							page_number += '<a class="current" href="">'+i+'</a>';
+						}else{
+							page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+						}
+					}
+					page_number += '...';
+					for(var i = pageNmber - 1; i <= pageNmber; i++){
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+					page_number += '<a href="javascript:next()">Next > </a>';
+				}else if(currectPage + 5 > pageNmber){
+					page_number += '<a href="javascript:prev()">< Prev</a>';
+					for(var i = 1; i <= 2; i++){
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+					page_number += '...';
+					for(var i = pageNmber - 6; i <= pageNmber; i++){
+						if(i == currectPage){
+							page_number += '<a class="current" href="">'+i+'</a>';
+						}else{
+							page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+						}
+					}
+					if(currectPage == pageNmber){
+						page_number += '<span class="disabled">Next ></span>';
+					}else{
+						page_number += '<a href="javascript:next()">Next > </a>';
+					}
+				}else{
+					page_number += '<a href="javascript:prev()">< Prev</a>';
+					for(var i = 1; i <= 2; i++){
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+					page_number += '...';
+					for(var i = currectPage - 2; i <= currectPage + 2; i++){
+						if(i == currectPage){
+							page_number += '<a class="current" href="">'+i+'</a>';
+						}else{
+							page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+						}
+					}
+					page_number += '...';
+					for(var i = pageNmber - 1; i <= pageNmber; i++){
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+					page_number += '<a href="javascript:next()">Next > </a>';
+				}
+			}
+			$("#page_number").html(page_number);
+		}
+		
+		
+		function prev(){
+			if(currectPage > 1){
+				currectPage--;
+			}
+			getLessonOrder(currectPage);
+   			getPageNumber(currectPage);
+		}
+		
+		function next(){
+			if(currectPage < pageNmber){
+				currectPage++;
+			}
+			getLessonOrder(currectPage);
+   			getPageNumber(currectPage);
+		}
+		
+		function setPage(pageOrder){
+			currectPage = pageOrder;
+			getLessonOrder(currectPage);
+   			getPageNumber(currectPage);
+		}
+		
+		//查询，需要加入列表获取功能，
+		function findByInput(){
+			orderKey = document.getElementById("orderKey").value;
+			orderStatus = document.getElementById("orderStatus").value;
+			orderStartTime = document.getElementById("orderStartTime").value;
+			orderEndTime = document.getElementById("orderEndTime").value;
+			if(orderKey == "" && orderStatus == "" && orderStartTime == "" && orderEndTime == ""){
+	   			alert("搜索时，输入不能为空");
+	   		}else{
+	   			if((orderStartTime == "" && orderEndTime != "") || (orderStartTime != "" && orderEndTime == "")){
+	   				alert("请输入完整的时间范围");
+	   			}else{
+	   		   		currectPage = 1;
+		   		   	getLessonOrder(currectPage);
+		   			getPageNumber(currectPage);
+	   			}
+	   		}
+		}
+    </script>
+</head>
+<body>
+<h1 style="margin: 2%;">订单查询</h1>
+<div class="layui-card" style="margin: 2%">
+    <div class="layui-card-header">
+	  				<span>
+	  					检索
+	  				</span>
+            <span>
+	  					关键字：<input id = "orderKey" class="inputStyle" type="text" name="keyword"/>
+	  				</span>
+            <span>
+	  					预约状态：<input id = "orderStatus" class="inputStyle" type="text" list="stateList" autocomplete="off" name="state"/>
+	  					<datalist id="stateList">
+						    <option>已退款</option>
+						    <option>退款中</option>
+						    <option>待付款</option>
+						    <option>已付款</option>
+						    <option>已核销</option>
+						</datalist>  
+	  				</span>
+            <span>
+	  					预约时间：自 <input id = "orderStartTime" class="inputTimeStyle" type="date" name="startTime">
+	  					至
+	  					<input id = "orderEndTime" class="inputTimeStyle" type="date" name="endTime">
+	  				</span>
+            <span>
+	  					<button class="inputButton" onclick="findByInput()">
+	  						查询
+	  						<i class="layui-icon layui-icon-search" style="font-size: 13px;"></i>
+	  					</button>
+	  				</span>
+    </div>
+    <div class="layui-card-body">
+        <table class="tableStyle">
+            <thead>
+            <tr>
+                <th class="th1">课程编号</th>
+                <th class="th2">课程名称</th>
+                <th class="th3">用户昵称</th>
+                <th class="th4">用户电话</th>
+                <th class="th5">订单金额</th>
+                <th class="th6">代金券编号</th>
+                <th class="th7">实付金额</th>
+                <th class="th8">订单状态</th>
+                <th class="th9">下单时间</th>
+                <th class="th10">交易流水号</th>
+            </tr>
+            </thead>
+            <tbody id = "table_body">
+            
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<center>
+  <div id = "page_number" class="green-black">
+  	<div class="green-black">
+	</div>
+	</div>
+</center>
+
+
+</body>
+</html>

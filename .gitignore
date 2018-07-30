@@ -1,0 +1,8 @@
+/target/
+/out/
+/.idea/
+/.settings/
+pom.xml
+!.gitignore
+eduPro.iml
+/.classpath

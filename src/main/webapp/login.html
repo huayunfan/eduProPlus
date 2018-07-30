@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>企业管理系统的登录</title>
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <script src="/js/jquery-3.3.1.js"></script>
+    <script>
+        // ajax请求
+        $(function () {
+            $("#submit").click(function () {
+                var username = $("#name").val();
+                var password = $("#password").val();
+                if(username!="")
+                {
+                    if (password!="")
+                    {
+                        $.ajax({
+                            url: "/back_login",
+                            type: "post",
+                            data: {username: username, password: password},
+                            dataType: "json",
+                            success: function (data) {
+                                // console.log(data);
+                                // alert(data.result)
+                                window.location.href = "/back/index.html"//跳转到首页
+                            },
+                            error: function () {
+                                console.log("emmmmm");
+                                alert('登陆失败')
+                            }
+                        })
+                        return true;
+                    }
+                    else{
+                        alert("密码为空，提交失败！");
+                        return false;
+                    }
+                }
+                else{
+                    alert("用户名为空，提交失败！");
+                    return false;
+                }
+
+            })
+        })
+    </script>
+</head>
+
+<body>
+<div class="background">
+    <div class="main1">
+
+        <!--
+            作者：czy1997@126.com
+            时间：2017-10-08
+            描述：标题板块
+        -->
+        <div class="logo">
+            Information Management System
+            <div class="slogan">
+                一个专业的企业信息管理平台！
+            </div>
+        </div>
+
+        <!--
+            作者：czy1997@126.com
+            时间：2017-10-08
+            描述：登录注册滑动表单板块
+        -->
+
+        <div class=form-login>
+            <!--
+                作者：czy1997@126.com
+                时间：2017-10-08
+                描述：滑动按钮
+            -->
+            <div class=lr>
+                <div class=slider>
+                    <a href="#register" class="active">管理员</a><a href="#login">超级管理员</a>
+                    <span class="bar"></span>
+                </div>
+            </div>
+            <!--
+                作者：czy1997@126.com
+                时间：2017-10-08
+                描述：注册
+            -->
+            <div class="register">
+                <form action="#" onsubmit="return toVaild()">
+                    <!--
+                        作者：czy1997@126.com
+                        时间：2017-01-08
+                        描述：注册表单提交处
+                    -->
+                    <div class="group-inputs">
+                        <input id="name" type="text" placeholder="帐号">
+                        <input id="password" type="password" placeholder="密码">
+                    </div>
+                    <button type="button" id="submit" class="sub">管理员登录</button>
+                </form>
+            </div>
+
+            <!--
+                作者：czy1997@126.com
+                时间：2017-10-08
+                描述：登录
+            -->
+            <div class="login" style="display: none;">
+                <form>
+                    <!--
+                                     作者：czy1997@126.com
+                                     时间：2017-10-09
+                                     描述：登录表单提交处
+                                 -->
+                    <div class="group-inputs">
+                        <input id="nameorphone" type="text" placeholder="帐号">
+                        <input id="pass" type="password" placeholder="密码">
+                    </div>
+                    <button type="submit" class="sub">超级管理员登录</button>
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+    <!--
+        作者：czy1997@126.com
+        时间：2017-10-08
+        描述：注册
+    -->
+</div>
+<script type="text/javascript" src="/js/login.js"></script>
+</body>
+
+
+</html>
