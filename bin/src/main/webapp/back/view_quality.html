@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台系统</title>
+    <link rel="stylesheet" href="css/layui.css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script>
+        var loc = location.href;
+        var n1 = loc.length;//地址的总长度
+        var n2 = loc.indexOf("=");//取得=号的位置
+        var id = decodeURI(loc.substr(n2 + 1, n1 - n2));//从=号后面的内容
+        console.log(id);
+        $(function () {
+            $.ajax({
+                url: '/back/findqualitybyid',
+                type: 'get',
+                data: {lid: id},
+                success: function (data) {
+                    console.log(data);
+                    $("#lid").append(data.lid);
+                    $("#title").html(data.lname);
+                    $("#img").append('<img src=\"/upload/' + data.imgurl + '\" style=\"width:40%\">');
+                    $("#des").append(data.ldesc);
+                    $("#price").append(data.lprice);
+                    $("#category").append(data.category);
+                    $("#status").append(data.status);
+                }
+            });
+            $.ajax({
+                url: '/back/findbranchsnamebylid',
+                type: 'get',
+                data: {"lid": id},
+                success: function (data) {
+                    console.log(data);
+                    for (i = 0; i < data.length; i++) {
+                        $("#branch").append(data[i] + "<br>");
+                    }
+                }
+            });
+
+        })
+    </script>
+</head>
+
+<body style="background-color: #F2F2F2;">
+
+<h1 style="margin: 2%;" id="title">精品课名称</h1>
+<div class="layui-card" style="margin: 2%">
+    <div class="layui-card-header">课程编号</div>
+    <div class="layui-card-body" id="lid">
+    </div>
+</div>
+<div class="layui-card" style="margin: 2%">
+    <div class="layui-card-header">课程状态</div>
+    <div class="layui-card-body" id="status">
+    </div>
+</div>
+<div class="layui-card" style="margin: 2%">
+    <div class="layui-card-header">课程类别</div>
+    <div class="layui-card-body" id="category">
+    </div>
+</div>
+<div class="layui-card" style="margin: 2%">
+    <div class="layui-card-header">图片介绍</div>
+    <div class="layui-card-body" id="img">
+    </div>
+</div>
+<div class="layui-card" style="margin: 2%">
+    <div class="layui-card-header">课程价格</div>
+    <div class="layui-card-body" id="price">
+    </div>
+</div>
+<div class="layui-card" style="margin: 2%">
+    <div class="layui-card-header">所在分部</div>
+    <div class="layui-card-body" id="branch">
+    </div>
+</div>
+<div class="layui-card" style="margin: 2%">
+    <div class="layui-card-header">精品课详情</div>
+    <div class="layui-card-body" id="des">
+    </div>
+</div>
+
+</body>
+
+</html>

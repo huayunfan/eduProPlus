@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>已使用</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/mui.min.css">
+    <link rel="stylesheet" href="css/myorder.css">
+     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.js"></script>
+    <script>
+    $(function(){
+	   	 	  //这个界面还有两个未完成的点 
+	   	 	  //1.根据微信用户的openid来在数据库中索引
+	   	 	  //2.为每一个card添加链接到课程详情页面
+	   	 	  
+	   $.ajax({
+		   url:"ajaxorderused",
+		   success:function(data)
+		   {
+			   for(var i=0; i<data.length;i++)
+			   {
+				  
+				   var card ='<div class="ordercard"><div class="ordercard_up">';
+				   card+='<div class="ordercard_num">'+(new Date(data[i].sorder.ordertime)).Format("yyyy-MM-dd hh:mm:ss")+'订购</div>';
+                   card+='<div class="ordercard_state_used">已使用</div></div>';
+				   card+=' <div class="ordercard_body"><div class="ordercard_pic"><img src="../upload/'+data[i].lesson.imgurl+'"></div>';
+				   card+=' <div class="ordercard_name"><p>'+data[i].lesson.lname+'</p>';
+				   card+='<span class="time_p">'+(new Date(data[i].lesson.pubtime)).Format("yyyy-MM-dd hh:mm:ss")+'开课</span><br/>';
+				   card+='开课地点:'+data[i].address.address+'<br/>';
+				   card+='联系电话:'+data[i].address.tel+'<br/></div>';
+				   card+='<div class="ordercard_price">￥'+data[i].lesson.lprice+'</div> </div>';
+				   card+='<div class="ordercard_down">';				
+				   card+='</div>';
+			       $("#orderback").append(card);				   
+			   }
+
+		   }		   
+	   })
+	   	   
+})
+
+Date.prototype.Format = function (fmt) { //author:czy
+            var o = {  
+                "M+": this.getMonth() + 1, //月份  
+                "d+": this.getDate(), //日  
+                "h+": this.getHours(), //小时  
+                "m+": this.getMinutes(), //分  
+                "s+": this.getSeconds(), //秒  
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度  
+                "S": this.getMilliseconds() //毫秒  
+            };  
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));  
+            for (var k in o)  
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));  
+            return fmt;  
+        };
+</script>
+    <style>
+        html,
+        body {
+            background-color: #efeff4;
+        }
+
+        .title {
+            padding: 20px 15px 10px;
+            color: #6d6d72;
+            font-size: 15px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+<div class="orderback" id="orderback">
+    
+</div>
+<script src="js/mui.min.js"></script>
+<script>
+    mui.init({
+        swipeBack: false,
+        keyEventBind: {
+            backbutton: false //关闭back按键监听
+        }
+    });
+</script>
+</body>
+
+</html>

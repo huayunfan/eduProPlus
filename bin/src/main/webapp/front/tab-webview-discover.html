@@ -1,0 +1,469 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hello MUI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="css/mui.min.css">
+    <link rel="stylesheet" href="css/icons-extra.css"/>
+    <style>
+        html,
+        body {
+            background-color: #efeff4;
+        }
+
+        .title {
+            margin: 20px 15px 10px;
+            color: #6d6d72;
+            font-size: 15px;
+        }
+
+        .oa-contact-cell.mui-table .mui-table-cell {
+            padding: 11px 0;
+            vertical-align: middle;
+        }
+
+        .oa-contact-cell {
+            position: relative;
+            margin: -11px 0;
+        }
+
+        .oa-contact-avatar {
+            width: 75px;
+        }
+
+        .oa-contact-avatar img {
+            border-radius: 50%;
+        }
+
+        .oa-contact-content {
+            width: 100%;
+        }
+
+        .oa-contact-name {
+            margin-right: 20px;
+        }
+
+        .oa-contact-name, oa-contact-position {
+            float: left;
+        }
+
+        .pStyle {
+            position: relative;
+            padding-left: 15px;
+            clear: both;
+        }
+
+        .pictureStyle {
+            width: 330px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pictureStyle ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .pictureStyle li {
+            width: 110px;
+            height: 110px;
+            float: left;
+            overflow: hidden;
+            border: 2px solid #FFFFFF;
+        }
+
+        .pictureStyle .pwidth {
+            height: 100%;
+            width: auto;
+            left: 50%;
+            position: relative;
+            -webkit-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+        }
+
+        .pictureStyle .pheigh {
+            width: 100%;
+            height: auto;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            position: relative;
+        }
+
+        .pStyle .fRight {
+            float: right;
+        }
+
+        .pStyle span {
+            padding-right: 10px;
+        }
+
+        .spanColor {
+            color: red;
+        }
+        a {  
+        	text-decoration:none; 
+        	out-line: none;
+        	color: #000;
+       	}
+       	.replybtn{
+       		
+       	}
+       	
+       	#context{
+        	/* display:none; */
+        }
+    </style>
+
+   
+</head>
+
+<body>
+
+<div class="mui-content" id="cardlist">
+    <div class="mui-card">
+        <div class="mui-card-content">
+            <div class="mui-card-content-inner">
+                包含页眉页脚的卡片，页眉常用来显示面板标题，页脚用来显示额外信息或支持的操作（比如点赞、评论等）
+
+            </div>
+            <div class="pictureStyle">
+                <ul>
+                    <li><img class="pwidth" src="images/1.jpg"></li>
+                    <li><img class="pheigh" src="images/3.jpg"></li>
+                    <li><img src=""></li>
+                    <li><img></li>
+                    <li><img></li>
+
+                </ul>
+            </div>
+
+            <p class="pStyle">
+            
+                <span>Posted on January 18, 2016</span>
+             	<!-- <span><a class="fRight iconSize mui-icon mui-icon-chatbubble" href = "javascript:display();"></a></span> -->
+             	<a type="button" data-id="3" class="fRight iconSize mui-icon mui-icon-chatbubble replybtn" ><span></span></a>
+                <span><a class="fRight iconSize mui-icon-extra mui-icon-extra-heart"></a></span>
+            </p>
+        </div>
+        
+        <div class="mui-card-content" style = "border-top: #d9d9d9 1px solid;">
+            <div style = "margin-left: 15px;">
+                <p>
+                    <span class="spanColor mui-icon-extra mui-icon-extra-heart-filled"></span>
+                    <span>小名</span>
+                </p>
+            </div>
+            
+            <div style = "margin-left: 15px;" >
+                1111:111111111111
+            </div>
+            
+            <div style = "margin-left: 19px;" id = "context">
+            		<textarea id="areaJs" style = "width: 90%;height:19px"></textarea>
+                    <script>
+                        /* var text = document.getElementById("areaJs");
+                        autoTextarea(text); */ // 调用
+                    </script>
+               	<a class = "mui-icon mui-icon-paperplane" style = "float: right; margin-right: 5px;"></a>
+            </div>
+            
+        </div>
+        
+    </div>
+   
+ </div>
+
+
+</body>
+
+<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+
+
+<script src="js/mui.min.js"></script>
+<script type="text/javascript">
+
+</script>
+<script>
+	var session;
+
+//$(function(){
+//  $.ajax({
+//		   url:"/front/getsession",
+////		   async:true,
+//		   success:function(data)
+//		   {
+//			   console.log(data.uname);
+////			   var mypic='<img src="../upload/'+data.userimg+'" class="mytouxiang">';
+//			   session = data;			   
+////			   $("#mypic").append(mypic);
+////			   $("#myname").append(myname);
+//		   }	
+//	   })
+//	   
+//})
+$(function(){
+	$.ajax({
+		type:"get",
+		url:"/front/findCircleOfFriends?qid=1",
+		async:true,
+		success:successfunction,
+		error:function(data){
+			console.log(data)
+		}
+	});
+	
+	$.ajax({
+		   url:"/front/getsession",
+		   async:false,
+		   success:function(data)
+		   {
+			   console.log(data.uname);
+//			   var mypic='<img src="../upload/'+data.userimg+'" class="mytouxiang">';
+			   session = data;			   
+//			   $("#mypic").append(mypic);
+//			   $("#myname").append(myname);
+		   }	
+	   })
+})
+
+
+//	$("#replybtn").click(function(){
+//	var mid = $(this).attr("data-id");
+//	console.log("按键成功");
+//	console.log(mid);
+//	$("#context").toggle();
+//})
+
+function like(mid){
+//	console.log(mid);
+	$.ajax({
+		type:"get",
+		url:"/front/like?mid="+mid+"&nickname="+session.uname+"",
+		dataType:"json",
+		async:true,
+		success:function(data){
+			console.log("ok");
+			console.log(data);
+//			console.log(data.result);
+			if(data.result=="add"){
+				console.log(data);
+				$("#messagelike"+mid).append('<span id="likeid'+data.id+'">  '+session.uname+'</span>')
+				$("#likebtn"+mid).attr("class","fRight spanColor mui-icon-extra mui-icon-extra-heart-filled");
+				console.log(session.uname);
+				console.log("add"+"likeid"+data.id);
+			}else if(data.result=="del"){
+				console.log(data)
+				$("#likeid"+data.id).remove();
+				console.log("del"+"likeid"+data.id);
+				$("#likebtn"+mid).attr("class","fRight iconSize mui-icon-extra mui-icon-extra-heart");
+			}
+		}
+	});
+}
+
+function showarea(mid){
+	$("#context"+mid).toggle();
+}
+function reply(mid){
+	console.log("reply")
+	var content = $("#areaJs"+mid).val()
+	console.log(content)
+	console.log(mid)
+	$.ajax({
+		type:"get",
+		url:"/front/reply",
+		async:true,
+		data:{"mid":mid,"content":content,"nickname":session.uname},
+		dataType:"json",
+		success:function(data){
+			console.log(data)
+			if(data.result=="success"){
+				console.log("success");
+				$("#areaJs"+mid).val("");
+				var reply = '<div style = "margin-left: 15px;">'
+								+session.uname+':'+content;
+							+'</div>';
+				$("#reply"+mid).append(reply);
+			}
+		}
+	});
+}
+
+function successfunction(data){
+	
+	console.log(data)
+	for(var i = 0; i < data.length; i++) {
+		var liked = false;
+		var card = '<div class="mui-card">';
+		card += ' 	<div class="mui-card-header">'+data[i].address.address+'</div>';
+		card += ' <div class="mui-card-content">';
+		card += '<div class="mui-card-content-inner">';
+		card += data[i].message.mtitle;
+		card += '</div>';
+		card += '<div class="pictureStyle">';
+		card += '<ul>';
+		/* 图片 */
+		for (var j = 0; j < data[i].messageImg.length; j++) {
+			card += '<li><img class="pwidth" src="../upload/'+data[i].messageImg[j].imgurl+'"></li>';
+		}
+		card += '</ul>';
+		card += '</div>';
+		card += '<p class="pStyle">';
+		
+		card += '<span>'+new Date(parseInt(data[i].message.mtime)).toLocaleString().replace(/:\d{1,2}$/,' ')+'</span>';
+		
+        for (var k = 0; k < data[i].messageLike.length; k++) {
+			if(data[i].messageLike[k].nickname==session.uname){
+				liked = true;
+			}
+		}
+		card += '<a  class="fRight iconSize mui-icon mui-icon-chatbubble replybtn" href="javascript:showarea('+data[i].message.mid+');"><span></span></a>';
+		if(liked){
+			card += '<a id="likebtn'+data[i].message.mid+'" class="fRight spanColor mui-icon-extra mui-icon-extra-heart-filled " href="javascript:like('+data[i].message.mid+');"></a>';
+		}else{
+			card += '<a id="likebtn'+data[i].message.mid+'" class="fRight iconSize mui-icon-extra mui-icon-extra-heart" href="javascript:like('+data[i].message.mid+');"></a>';
+		}
+		card += '</p>'
+		card += '</div>';
+		
+		card += '<div class="mui-card-content" style = "border-top: #d9d9d9 1px solid;">';
+		
+		card +='<div style = "margin-left: 15px;">';
+		
+		card += '<p id="messagelike'+data[i].message.mid+'">';
+		card += '<span class="spanColor mui-icon-extra mui-icon-extra-heart-filled"></span>';
+		for (var k = 0; k < data[i].messageLike.length; k++) {
+		
+//			if(k>=1){	
+		card += '<span id="likeid'+data[i].messageLike[k].id+'"> '+data[i].messageLike[k].nickname+'</span>';
+//			}else{
+//		card += '<span "likeid'+data[i].messageLike[k].id+'">'+data[i].messageLike[k].nickname+'</span>';
+//			}
+			
+		}
+		card += '</p>';
+		card += '</div>';
+		
+		card +='<div id = "reply'+data[i].message.mid+'">'
+		for (var r = 0; r < data[i].messageReply.length; r++) {
+		card += '<div style = "margin-left: 15px;">';
+		card += data[i].messageReply[r].nickname+':'+data[i].messageReply[r].content;
+		card += '</div>';
+		}
+		card +='</div>'
+		
+		/* reply */		
+		card += '<div style = "margin-left: 19px;display: none" id = "context'+data[i].message.mid+'" >';
+		card += '<textarea id="areaJs'+data[i].message.mid+'" style = "width: 90%;height:19px;margin-top:10px" ></textarea>';
+		
+//		showarea("arenaJs"+data[i].message.mid);
+		card += '<a href="javascript:reply('+data[i].message.mid+')" class="mui-icon mui-icon-paperplane" style = "float: right; margin-right: 5px;margin-top:10px"></a>';
+		card += '</div>';
+		card += '</div>'; 
+	
+		card += '</div>';
+		card += ' </div>';
+		$("#cardlist").append(card);
+		
+	}
+	
+	
+	
+//	var clicks = '$(document).ready(function(){';
+ //	clicks += '$(".replybtn").click(function(){';
+	//clicks += 'var mid = $(this).attr("data-id");';
+//	clicks += 'console.log(mid);';
+	//clicks += '$("#context"+mid).toggle();';
+	//clicks += '});';
+	//clicks += '});';
+	//$("#cardlist").append(clicks);
+}
+
+
+
+
+
+
+
+    
+	var autoTextarea = function (elem, extra, maxHeight) {
+        extra = extra || 0;
+        var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+            isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+            addEvent = function (type, callback) {
+                elem.addEventListener ?
+                    elem.addEventListener(type, callback, false) :
+                    elem.attachEvent('on' + type, callback);
+            },
+            getStyle = elem.currentStyle ? function (name) {
+                var val = elem.currentStyle[name];
+
+                if (name === 'height' && val.search([表情]/i) !== 1) {
+                    var rect = elem.getBoundingClientRect();
+                    return rect.bottom - rect.top -
+                        parseFloat(getStyle('paddingTop')) -
+                        parseFloat(getStyle('paddingBottom')) + 'px';
+                }
+                ;
+
+                return val;
+            } : function (name) {
+                return getComputedStyle(elem, null)[name];
+            },
+            minHeight = parseFloat(getStyle('height'));
+
+        elem.style.resize = 'none';
+
+        var change = function () {
+            var scrollTop, height,
+                padding = 0,
+                style = elem.style;
+
+            if (elem._length === elem.value.length) return;
+            elem._length = elem.value.length;
+
+            if (!isFirefox && !isOpera) {
+                padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+            }
+            ;
+            scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+            elem.style.height = minHeight + 'px';
+            if (elem.scrollHeight > minHeight) {
+                if (maxHeight && elem.scrollHeight > maxHeight) {
+                    height = maxHeight - padding;
+                    style.overflowY = 'auto';
+                } else {
+                    height = elem.scrollHeight - padding;
+                    style.overflowY = 'hidden';
+                };
+                style.height = height + extra + 'px';
+                scrollTop += parseInt(style.height) - elem.currHeight;
+                document.body.scrollTop = scrollTop;
+                document.documentElement.scrollTop = scrollTop;
+                elem.currHeight = parseInt(style.height);
+            };
+        };
+
+        addEvent('propertychange', change);
+        addEvent('input', change);
+        addEvent('focus', change);
+        change();
+    }
+    
+    //function display(id){
+    	//document.getElementById(id).style.display = "block";
+   // }
+</script>
+
+</html>

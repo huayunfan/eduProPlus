@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.neu.mapper.BackGetFreeListenBookMapper">
+	<resultMap type = "com.neu.beans.FreeListen" id = "FreeListen_FreeListenBook">
+		<id property = "id" column = "id"/>
+		<result property = "title" column = "title"/>
+		<result property = "imgurl" column = "imgurl"/>
+		<result property = "fdesc" column = "fdesc"/>
+		<result property = "status" column = "status"/>
+		<result property = "qid" column = "qid"/>
+		<result property = "branchid" column = "branchid"/>
+		<result property = "pubtime" column = "pubtime"/>
+		<collection property="freeListenBook" column="fid" ofType="com.neu.beans.FreeListenBook">
+			<id property = "id" column = "book_id"/>
+			<result property = "username" column = "username"/>
+			<result property = "tel" column = "tel"/>
+			<result property = "booktime" column = "booktime"/>
+			<result property = "status" column = "book_status"/>
+			<result property = "comment" column = "comment"/>
+			<result property = "openid" column = "openid"/>
+		</collection>
+	</resultMap>
+
+	 
+	<select id = "getPageNumber" resultType = "int">
+		select count(*)
+		from freelisten f, freelistenbook f_book
+		where f.id = f_book.fid
+	</select>
+	
+	<select id = "getfreeListenBookByeInput" resultMap = "FreeListen_FreeListenBook">
+		select f.id, f.title, f_book.id book_id, f_book.username, f_book.tel, f_book.booktime, f_book.comment, f_book.status book_status
+		from freelisten f, freelistenbook f_book
+		where f.id = f_book.fid and f.qid = #{qid} and f.status = "进行中"
+		<if test = 'titleKey != null and titleKey != ""'>
+			and f.title like "%"#{titleKey}"%"
+		</if>
+		<if test = 'listenState != null and listenState != ""'>
+			and f_book.status like "%"#{listenState}"%"
+		</if>
+		<if test = 'listenStratTime != null and listenStratTime != "" and listenEndTime != null and listenEndTime != ""'>
+			and f_book.booktime between #{listenStratTime} and #{listenEndTime}
+		</if>
+		order by id, book_id asc
+		limit #{pageStart}, #{pageNumber}
+	</select>
+	
+	<update id = "setState">
+		update freelistenbook f_book
+		set f_book.status = "已处理"
+		where f_book.id = #{book_id}
+	</update>
+</mapper>

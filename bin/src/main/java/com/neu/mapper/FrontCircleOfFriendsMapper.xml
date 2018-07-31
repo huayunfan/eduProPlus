@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.FrontCircleOfFriendsMapper">
+<select id="getMessageById" resultType="com.neu.beans.Message" parameterType="int">
+	SELECT * FROM message WHERE qid=#{id}
+</select>
+<select id="getMessageLike" resultType="com.neu.beans.MessageLike" parameterType="int">
+	SELECT * FROM messagelike WHERE mid=#{mid}
+</select>
+<select id="getMessageImg" resultType="com.neu.beans.MessageImg" parameterType="int">
+	SELECT * FROM messageimg WHERE mid=#{mid}
+	
+</select>
+<select id="getMessageReply" resultType="com.neu.beans.MessageReply" parameterType="int">
+	SELECT * FROM messagereply WHERE mid=#{mid}
+</select>
+<select id="getBranchAddress" resultType="com.neu.beans.Address" parameterType="int">
+	SELECT * FROM address WHERE id  = #{branchid}
+</select>
+
+<select id="getLikeId" parameterType="map" resultType="int">
+	SELECT id FROM messagelike WHERE mid=#{mid} and nickname = #{nickname}
+</select>
+<insert id="addlike" parameterType="map">
+	INSERT INTO messagelike(mid,nickname,stime) VALUES(#{mid},#{nickname},now())
+</insert>
+<delete id="deletelike" parameterType="map">
+	delete  FROM messagelike WHERE mid=#{mid} AND nickname= #{nickname}
+</delete>
+<select id="findlike" parameterType="map" resultType="com.neu.beans.MessageLike">
+	select * FROM messagelike WHERE mid=#{mid} AND nickname= #{nickname}
+</select>
+
+<insert id="addreply" parameterType="map">
+	insert into messagereply (mid,nickname,content,stime) values(#{mid},#{nickname},#{content},NOW())
+</insert>
+</mapper>
+

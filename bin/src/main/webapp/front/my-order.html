@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>我的订单</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="stylesheet" href="css/myorder.css">
+        <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.js"></script>
+        <link rel="stylesheet" href="css/mui.min.css">
+         <script>
+         function deleteorder(oid)
+         {
+    		 $.ajax({
+    			   url:"ajaxdeleteorder",
+    			   data:{myoid:oid},
+    			   dataType:"text",
+    			   success:function(data)
+    			   {
+    				   if(data=='1')
+    					   {
+    					   mui.toast('成功取消订单！'); 
+    					  
+    					   $("#all"+oid).remove();	
+    					   $("#paying"+oid).remove();	
+    					   }
+    				   else
+    					   {
+    					   mui.toast('取消订单失败！'); 
+    					   
+    					   }
+    			  
+    			   }
+    		 })
+    	};
+
+    	function pay(cardobject)
+    	{
+    		var object=JSON.stringify(cardobject);
+    		 $.ajax({
+    			   url:"ajaxpay",
+    			   data:{myoid:cardobject.sorder.oid},
+    			   dataType:"text",
+    			   success:function(data)
+    			   {
+    				   if(data=='1')
+    				   {
+    					   mui.toast('支付成功！'); 
+    					   $("#all"+cardobject.sorder.oid).remove();	
+    					   $("#paying"+cardobject.sorder.oid).remove();	
+    					   
+    					   var card ='<div class="ordercard" id="paied'+cardobject.sorder.oid+'"><div class="ordercard_up">';
+    					   card+='<div class="ordercard_num">'+(new Date(cardobject.sorder.ordertime)).Format("yyyy-MM-dd hh:mm:ss")+'订购</div>';
+    					   card+='<div class="ordercard_state_paied">已付款</div></div>';				  
+    					   card+=' <div class="ordercard_body"><div class="ordercard_pic"><img src="../upload/'+cardobject.lesson.imgurl+'"></div>';
+    					   card+=' <div class="ordercard_name"><p>'+cardobject.lesson.lname+'</p>';
+    					   card+='<span class="time_p">'+(new Date(cardobject.lesson.pubtime)).Format("yyyy-MM-dd hh:mm:ss")+'开课</span><br/>';
+    					   card+='开课地点:'+cardobject.address.address+'<br/>';
+    					   card+='联系电话:'+cardobject.address.tel+'<br/></div>';
+    					   card+='<div class="ordercard_price">￥'+cardobject.lesson.lprice+'</div> </div>';
+    					   card+='<div class="ordercard_down">';
+    					   card+="<div class='orderbuttonpay'><button type='button' onclick='cancel("+object+")'>退款</button> </div>";					  				  
+    					   card+='</div>';
+    					   
+    					   $("#orderback1").append(card);
+    					   $("#orderback3").append(card);
+    				   }
+    			   else
+    				   {
+    				   mui.toast('支付失败！'); 
+    				   }
+    				  
+    			   }
+    		 })
+    		
+    	};
+
+    	function cancel(cardobject)             
+    	{
+    		 $.ajax({
+    			   url:"ajaxcancel",
+    			   data:{myoid:cardobject.sorder.oid},
+    			   dataType:"text",
+    			   success:function(data)
+    			   {
+    				   if(data=='1')
+    				   {
+    					   mui.toast('成功申请退款！'); 
+    					    					   
+    					   $("#all"+cardobject.sorder.oid).remove();
+    					   $("#paied"+cardobject.sorder.oid).remove();
+    					   
+    					   var card ='<div class="ordercard" id="cancel'+cardobject.sorder.oid+'"><div class="ordercard_up">';
+    					   card+='<div class="ordercard_num">'+(new Date(cardobject.sorder.ordertime)).Format("yyyy-MM-dd hh:mm:ss")+'订购</div>';
+    					   card+='<div class="ordercard_state_cancel">退款中</div></div>';						
+    					   card+=' <div class="ordercard_body"><div class="ordercard_pic"><img src="../upload/'+cardobject.lesson.imgurl+'"></div>';
+    					   card+=' <div class="ordercard_name"><p>'+cardobject.lesson.lname+'</p>';
+    					   card+='<span class="time_p">'+(new Date(cardobject.lesson.pubtime)).Format("yyyy-MM-dd hh:mm:ss")+'开课</span><br/>';
+    					   card+='开课地点:'+cardobject.address.address+'<br/>';
+    					   card+='联系电话:'+cardobject.address.tel+'<br/></div>';
+    					   card+='<div class="ordercard_price">￥'+cardobject.lesson.lprice+'</div> </div>';
+    					   card+='<div class="ordercard_down">';				   
+    					   card+='</div>';
+    					   $("#paied"+cardobject.sorder.oid).remove();
+    					   $("#orderback1").append(card);
+    					   $("#orderback5").append(card);
+    				   }
+    			   else
+    				   {
+    				   mui.toast('申请退款失败！'); 
+    				   }
+    				  
+    			   }
+    		 })
+    		
+    	};
+    $(function(){
+	   	 	  
+	   $.ajax({
+		   url:"ajaxallorder",
+		   success:function(data)
+		   {
+			   for(var i=0; i<data.length;i++)
+			   {
+				   var cardobject=JSON.stringify(data[i]);
+				   var card ='<div class="ordercard" id="all'+data[i].sorder.oid+'"><div class="ordercard_up">';
+				   card+='<div class="ordercard_num">'+(new Date(data[i].sorder.ordertime)).Format("yyyy-MM-dd hh:mm:ss")+'订购</div>';
+				   switch(data[i].sorder.status)
+				   {
+				   case "待付款":
+					   card+='<div class="ordercard_state_paying">待付款</div></div>';
+					   break;
+				   case "已付款":
+					   card+='<div class="ordercard_state_paied">已付款</div></div>';
+					   break;
+				   case "已使用":
+					   card+='<div class="ordercard_state_used">已使用</div></div>';
+					   break;			   
+				   case "已退款":
+					   card+='<div class="ordercard_state_cancel">已退款</div></div>';
+					   break;
+				   case "退款中":
+					   card+='<div class="ordercard_state_cancel">退款中</div></div>';
+					   break;
+				   }
+				   card+=' <div class="ordercard_body"><div class="ordercard_pic"><img src="../upload/'+data[i].lesson.imgurl+'"></div>';
+				   card+=' <div class="ordercard_name"><p>'+data[i].lesson.lname+'</p>';
+				   card+='<span class="time_p">'+(new Date(data[i].lesson.pubtime)).Format("yyyy-MM-dd hh:mm:ss")+'开课</span><br/>';
+				   card+='开课地点:'+data[i].address.address+'<br/>';
+				   card+='联系电话:'+data[i].address.tel+'<br/></div>';
+				   card+='<div class="ordercard_price">￥'+data[i].lesson.lprice+'</div> </div>';
+				   card+='<div class="ordercard_down">';
+				   switch(data[i].sorder.status)
+				   {
+				   case "待付款"	:				  
+					   card+=" <div class='orderbutton'><button type='button' onclick='deleteorder("+data[i].sorder.oid+")'>取消</button></div><div class='orderbuttonpay'><button type='button' onclick='pay("+cardobject+")'>付款</button></div>";
+					   break;
+				   case "已付款":
+					   card+="<div class='orderbuttonpay'><button type='button' onclick='cancel("+cardobject+")'>退款</button> </div>";
+					   break;
+				   case "已使用":
+					
+					   break;			   
+				   case "已退款":
+					 
+					   break;
+				   case "退款中":
+						 
+					   break;
+				   }
+				   card+='</div>';
+			       $("#orderback1").append(card);				   
+			   }
+
+		   }		   
+	   })
+	   	  $.ajax({
+		   url:"ajaxorderpaying",
+		   success:function(data)
+		   {
+			   for(var i=0; i<data.length;i++)
+			   {
+				   var cardobject=JSON.stringify(data[i]);
+				   var card ='<div class="ordercard" id="paying'+data[i].sorder.oid+'"><div class="ordercard_up">';
+				   card+='<div class="ordercard_num">'+(new Date(data[i].sorder.ordertime)).Format("yyyy-MM-dd hh:mm:ss")+'订购</div>';				   
+				   card+='<div class="ordercard_state_paying">待付款</div></div>';
+				   card+=' <div class="ordercard_body"><div class="ordercard_pic"><img src="../upload/'+data[i].lesson.imgurl+'"></div>';
+				   card+=' <div class="ordercard_name"><p>'+data[i].lesson.lname+'</p>';
+				   card+='<span class="time_p">'+(new Date(data[i].lesson.pubtime)).Format("yyyy-MM-dd hh:mm:ss")+'开课</span><br/>';
+				   card+='开课地点:'+data[i].address.address+'<br/>';
+				   card+='联系电话:'+data[i].address.tel+'<br/></div>';
+				   card+='<div class="ordercard_price">￥'+data[i].lesson.lprice+'</div> </div>';
+				   card+='<div class="ordercard_down">';			  
+				   card+=" <div class='orderbutton'><button type='button' onclick='deleteorder("+data[i].sorder.oid+")'>取消</button></div><div class='orderbuttonpay'><button type='button' onclick='pay("+cardobject+")'>付款</button></div>"; 
+				   card+='</div>';
+			       $("#orderback2").append(card);				   
+			   }
+
+		   }		   
+	   })
+	   
+	      $.ajax({
+		   url:"ajaxorderpaied",
+		   success:function(data)
+		   {
+			   for(var i=0; i<data.length;i++)
+			   {
+				   var cardobject=JSON.stringify(data[i]);
+				   var card ='<div class="ordercard" id="paied'+data[i].sorder.oid+'"><div class="ordercard_up">';
+				   card+='<div class="ordercard_num">'+(new Date(data[i].sorder.ordertime)).Format("yyyy-MM-dd hh:mm:ss")+'订购</div>';
+				   card+='<div class="ordercard_state_paied">已付款</div></div>';				  
+				   card+=' <div class="ordercard_body"><div class="ordercard_pic"><img src="../upload/'+data[i].lesson.imgurl+'"></div>';
+				   card+=' <div class="ordercard_name"><p>'+data[i].lesson.lname+'</p>';
+				   card+='<span class="time_p">'+(new Date(data[i].lesson.pubtime)).Format("yyyy-MM-dd hh:mm:ss")+'开课</span><br/>';
+				   card+='开课地点:'+data[i].address.address+'<br/>';
+				   card+='联系电话:'+data[i].address.tel+'<br/></div>';
+				   card+='<div class="ordercard_price">￥'+data[i].lesson.lprice+'</div> </div>';
+				   card+='<div class="ordercard_down">';				  
+				   card+="<div class='orderbuttonpay'><button type='button' onclick='cancel("+cardobject+")'>退款</button> </div>";				  
+				   card+='</div>';
+			       $("#orderback3").append(card);				   
+			   }
+
+		   }		   
+	   })
+	   
+	   $.ajax({
+		   url:"ajaxorderused",
+		   success:function(data)
+		   {
+			   for(var i=0; i<data.length;i++)
+			   {
+				  
+				   var card ='<div class="ordercard" id="used'+data[i].sorder.oid+'"><div class="ordercard_up">';
+				   card+='<div class="ordercard_num">'+(new Date(data[i].sorder.ordertime)).Format("yyyy-MM-dd hh:mm:ss")+'订购</div>';
+                   card+='<div class="ordercard_state_used">已使用</div></div>';
+				   card+=' <div class="ordercard_body"><div class="ordercard_pic"><img src="../upload/'+data[i].lesson.imgurl+'"></div>';
+				   card+=' <div class="ordercard_name"><p>'+data[i].lesson.lname+'</p>';
+				   card+='<span class="time_p">'+(new Date(data[i].lesson.pubtime)).Format("yyyy-MM-dd hh:mm:ss")+'开课</span><br/>';
+				   card+='开课地点:'+data[i].address.address+'<br/>';
+				   card+='联系电话:'+data[i].address.tel+'<br/></div>';
+				   card+='<div class="ordercard_price">￥'+data[i].lesson.lprice+'</div> </div>';
+				   card+='<div class="ordercard_down">';				
+				   card+='</div>';
+			       $("#orderback4").append(card);				   
+			   }
+
+		   }		   
+	   })
+	    $.ajax({
+		   url:"ajaxordercancel",
+		   success:function(data)
+		   {
+			   for(var i=0; i<data.length;i++)
+			   {
+				  
+				   var card ='<div class="ordercard" id="cancel'+data[i].sorder.oid+'"><div class="ordercard_up">';
+				   card+='<div class="ordercard_num">'+(new Date(data[i].sorder.ordertime)).Format("yyyy-MM-dd hh:mm:ss")+'订购</div>';
+				   switch(data[i].sorder.status)
+				   {		   
+				   case "已退款":
+					   card+='<div class="ordercard_state_cancel">已退款</div></div>';
+					   break;
+				   case "退款中":
+					   card+='<div class="ordercard_state_cancel">退款中</div></div>';
+					   break;
+				   }
+				   card+=' <div class="ordercard_body"><div class="ordercard_pic"><img src="../upload/'+data[i].lesson.imgurl+'"></div>';
+				   card+=' <div class="ordercard_name"><p>'+data[i].lesson.lname+'</p>';
+				   card+='<span class="time_p">'+(new Date(data[i].lesson.pubtime)).Format("yyyy-MM-dd hh:mm:ss")+'开课</span><br/>';
+				   card+='开课地点:'+data[i].address.address+'<br/>';
+				   card+='联系电话:'+data[i].address.tel+'<br/></div>';
+				   card+='<div class="ordercard_price">￥'+data[i].lesson.lprice+'</div> </div>';
+				   card+='<div class="ordercard_down">';				   
+				   card+='</div>';
+			       $("#orderback5").append(card);				   
+			   }
+
+		   }		   
+	   })
+	   
+})
+
+
+
+Date.prototype.Format = function (fmt) { //author:czy 
+            var o = {  
+                "M+": this.getMonth() + 1, //月份  
+                "d+": this.getDate(), //日  
+                "h+": this.getHours(), //小时  
+                "m+": this.getMinutes(), //分  
+                "s+": this.getSeconds(), //秒  
+                "q+": Math.floor((this.getMonth() + 3) / 3), //季度  
+                "S": this.getMilliseconds() //毫秒  
+            };  
+            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));  
+            for (var k in o)  
+                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));  
+            return fmt;  
+        };
+        
+        
+</script>
+<style>
+        html,
+        body {
+            background-color: #efeff4;
+        }
+
+        .title {
+            padding: 20px 15px 10px;
+            color: #6d6d72;
+            font-size: 15px;
+            background-color: #fff;
+        }
+    </style>
+	</head>
+
+	<body>
+
+		<style>
+			.mui-control-content {
+				background-color: white;
+				min-height: 215px;
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+		</style>
+		
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">我的订单</h1>
+		</header>
+		
+		<div class="mui-content">
+			<div id="slider" class="mui-slider"  >
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted" >
+					<a class="mui-control-item" href="#item1mobile">
+				所有订单
+			</a>
+					<a class="mui-control-item" href="#item2mobile">
+				待付款
+			</a>
+					<a class="mui-control-item" href="#item3mobile">
+				已付款
+			</a>
+			        <a class="mui-control-item" href="#item4mobile">
+				已使用
+			</a>
+			        <a class="mui-control-item" href="#item5mobile">
+				取消/退款
+			</a>
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4" style="width:20% "></div>
+				<div class="mui-slider-group" style=" background-color: #efeff4;" >
+					
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active" style="background-color:#efeff4; border: 0px;">
+						<div class="orderback" id="orderback1">
+</div>
+					</div>
+					
+					<div id="item2mobile" class="mui-slider-item mui-control-content" style="background-color: #efeff4; border: 0px;">
+						
+<div class="orderback" id="orderback2">
+</div>
+
+					</div>
+					
+					<div id="item3mobile" class="mui-slider-item mui-control-content" style="background-color:#efeff4; border: 0px;">
+						<div class="orderback" id="orderback3">
+</div>
+                    </div>
+                    <div id="item4mobile" class="mui-slider-item mui-control-content" style="background-color:#efeff4; border: 0px;">
+						<div class="orderback" id="orderback4">
+</div>
+                    </div>
+                    <div id="item5mobile" class="mui-slider-item mui-control-content" style="background-color:#efeff4; border: 0px;">
+						<div class="orderback" id="orderback5">
+</div>
+                    </div>
+				</div>
+			</div>
+
+			
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+				var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第二个选项卡子项-1</li><li class="mui-table-view-cell">第二个选项卡子项-2</li><li class="mui-table-view-cell">第二个选项卡子项-3</li><li class="mui-table-view-cell">第二个选项卡子项-4</li><li class="mui-table-view-cell">第二个选项卡子项-5</li></ul>';
+				var html3 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第三个选项卡子项-1</li><li class="mui-table-view-cell">第三个选项卡子项-2</li><li class="mui-table-view-cell">第三个选项卡子项-3</li><li class="mui-table-view-cell">第三个选项卡子项-4</li><li class="mui-table-view-cell">第三个选项卡子项-5</li></ul>';
+				var item2 = document.getElementById('item2mobile');
+				var item3 = document.getElementById('item3mobile');
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.mui-scroll').innerHTML = html2;
+							}, 500);
+						}
+					} else if (e.detail.slideNumber === 2) {
+						if (item3.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item3.querySelector('.mui-scroll').innerHTML = html3;
+							}, 500);
+						}
+					}
+				});
+				var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if (this.checked) {
+						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+						//force repaint
+						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+					}
+				});
+			})(mui);
+		</script>
+
+	</body>
+
+</html>
+
+

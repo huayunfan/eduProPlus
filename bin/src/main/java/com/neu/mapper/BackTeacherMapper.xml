@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.BackTeacherMapper">
+
+    <select id="findTeachers" resultType="com.neu.beans.Teacher">
+        select * FROM teacher
+    </select>
+    <delete id="deleteTeacher" parameterType="int">
+        delete from teacher where tid=#{tid}
+    </delete>
+    <select id="findTeacherById" parameterType="int" resultType="com.neu.beans.Teacher">
+        select * from teacher where tid=#{tid}
+    </select>
+    <insert id="addTeacher" parameterType="com.neu.beans.Teacher">
+        insert into teacher(tname,tphoto,introduction,qid) values(#{tname},#{tphoto},#{introduction},#{qid})
+    </insert>
+    <update id="editTeacher" parameterType="com.neu.beans.Teacher">
+        update teacher set tname=#{tname},tphoto=#{tphoto},introduction=#{introduction} where tid=#{tid}
+    </update>
+</mapper>
