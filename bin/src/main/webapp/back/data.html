@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+        <script type="text/javascript" src="js/echarts.js"></script>
+        <style>
+        	.chartSize{
+        		height: 430px;
+        		width: 100%px;
+        	}
+        	#lineChart{
+        		display: block;
+        	}
+        	#ringDiagram{
+        		display: none;
+        	}
+        	#container{
+        		display: none;
+        	}
+        	.circle a{
+        		 text-decoration:none;
+        		 out-line: none;
+        		 color:black;
+        	}
+        	.circle .fontColor{
+        		color:red;
+        	}
+        </style>
+        
+        <script>
+        	function changeDiv1(){
+        		document.getElementById("lineChart").style.display = "block";
+        		document.getElementById("ringDiagram").style.display = "none";
+        		document.getElementById("container").style.display = "none";
+        		document.getElementById("circle3").style.color = "black";
+        		document.getElementById("circle2").style.color = "black";
+        		document.getElementById("circle1").style.color = "red";
+        		var dom = document.getElementById("lineChart");
+					var myChart = echarts.init(dom);
+					option = null;
+					option = {
+					    title: {
+					        text: '各分部盈利折线图'
+					    },
+					    tooltip : {
+					        trigger: 'axis',
+					        axisPointer: {
+					            type: 'cross',
+					            label: {
+					                backgroundColor: '#6a7985'
+					            }
+					        }
+					    },
+					    legend: {
+					        data:['分部1','分部2','分部3']
+					    },
+					    grid: {
+					        left: '3%',
+					        right: '4%',
+					        bottom: '3%',
+					        containLabel: true
+					    },
+					    xAxis : [
+					        {
+					            type : 'category',
+					            boundaryGap : false,
+					            data : ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月']
+					        }
+					    ],
+					    yAxis : [
+					        {
+					            type : 'value'
+					        }
+					    ],
+					    series : [
+					        {
+					            name:'分部1',
+					            type:'line',
+					            stack: '总量',
+					            areaStyle: {normal: {}},
+					            data:[120, 132, 101, 134, 90, 230, 210, 110, 130, 123, 450, 123]
+					        },
+					        {
+					            name:'分部2',
+					            type:'line',
+					            stack: '总量',
+					            areaStyle: {normal: {}},
+					            data:[220, 182, 191, 234, 290, 330, 310, 120, 132, 101, 134, 90]
+					        },
+					        {
+					            name:'分部3',
+					            type:'line',
+					            stack: '总量',
+					            areaStyle: {normal: {}},
+					            data:[150, 232, 201, 154, 190, 330, 410, 220, 182, 191, 234, 290]
+					        }
+					    ]
+					};
+					if (option && typeof option === "object") {
+					    myChart.setOption(option, true);
+					};
+        	}
+        	function changeDiv2(){
+        		document.getElementById("lineChart").style.display = "none";
+        		document.getElementById("ringDiagram").style.display = "block";
+        		document.getElementById("container").style.display = "none";
+        		document.getElementById("circle3").style.color = "black";
+        		document.getElementById("circle1").style.color = "black";
+        		document.getElementById("circle2").style.color = "red";
+        		var dom = document.getElementById("ringDiagram");
+					var myChart = echarts.init(dom);
+					var app = {};
+					option = null;
+					app.title = '用户引流环形图';
+					
+					option = {
+						title: {
+					        text: '用户引流环形图'
+					    },
+					    tooltip: {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b}: {c} ({d}%)"
+					    },
+					    legend: {
+					        data:['精品课程','预约课程','发现页面']
+					    },
+					    series: [
+					        {
+					            name:'访问来源',
+					            type:'pie',
+					            radius: ['45%', '70%'],
+					            avoidLabelOverlap: false,
+					            label: {
+					                normal: {
+					                    show: false,
+					                    position: 'center'
+					                },
+					                emphasis: {
+					                    show: true,
+					                    textStyle: {
+					                        fontSize: '30',
+					                        fontWeight: 'bold'
+					                    }
+					                }
+					            },
+					            labelLine: {
+					                normal: {
+					                    show: false
+					                }
+					            },
+					            data:[
+					                {value:335, name:'精品课程'},
+					                {value:310, name:'预约课程'},
+					                {value:234, name:'发现页面'},
+					            ]
+					        }
+					    ]
+					};
+					;
+					if (option && typeof option === "object") {
+					    myChart.setOption(option, true);
+					}
+        	}
+        	function changeDiv3(){
+        		document.getElementById("lineChart").style.display = "none";
+        		document.getElementById("ringDiagram").style.display = "none";
+        		document.getElementById("container").style.display = "block";
+        		document.getElementById("circle1").style.color = "black";
+        		document.getElementById("circle2").style.color = "black";
+        		document.getElementById("circle3").style.color = "red";
+        		var dom = document.getElementById("container");
+					var myChart = echarts.init(dom);
+					var app = {};
+					option = null;
+					option = {
+					    title: {
+					        text: '本季度计划收入与实际收入对比图'
+					    },
+					    tooltip: {},
+					    legend: {
+					        data: ['计划收入', '实际收入']
+					    },
+					    radar: {
+					        // shape: 'circle',
+					        name: {
+					            textStyle: {
+					                color: '#fff',
+					                backgroundColor: '#999',
+					                borderRadius: 3,
+					                padding: [3, 5]
+					           }
+					        },
+					        indicator: [
+					           { name: 'Java课程', max: 6500},
+					           { name: 'C++课程', max: 16000},
+					           { name: 'Python课程', max: 30000},
+					           { name: '大数据课程', max: 38000},
+					           { name: '云计算课程', max: 52000},
+					           { name: '分布式课程', max: 25000}
+					        ]
+					    },
+					    series: [{
+					        name: '计划vs 实际',
+					        type: 'radar',
+					        // areaStyle: {normal: {}},
+					        data : [
+					            {
+					                value : [4300, 10000, 28000, 35000, 50000, 19000],
+					                name : '计划收入'
+					            },
+					             {
+					                value : [5000, 14000, 28000, 31000, 42000, 21000],
+					                name : '实际收入'
+					            }
+					        ]
+					    }]
+					};;
+					if (option && typeof option === "object") {
+					    myChart.setOption(option, true);
+					}
+        	}
+        </script>
+	</head>
+	<body style="background-color: #F2F2F2;">
+		<div style="margin: 2%">
+			<div class = "circle"style = "padding: 1.5%;background: #FFFFFF; ">
+				<span id = "title" style = "font-size: 28px;">企业阶段性数据汇总</span>
+				<span style = "float:right; margin:7px; line-height: 10px;">
+					<a id = "circle3" href = "javascript:changeDiv3()">●</a>
+				</span>
+				<span style = "float:right; margin:7px; line-height: 10px;">
+					<a id = "circle2" href = "javascript:changeDiv2()">●</a>
+				</span>
+				<span style = "float:right; margin:7px; line-height: 10px;">
+					<a id = "circle1" href = "javascript:changeDiv1()">●</a>
+				</span>
+			</div>
+			<div style="padding: 1.5%;background: #FFFFFF; border-top: #d9d9d9 1px solid; ">
+				<div id="lineChart" class = "chartSize"></div>
+		        <div id="ringDiagram" class = "chartSize"></div>
+	       		<div id="container" class = "chartSize"></div>
+	      		 <script type="text/javascript">
+					changeDiv1();
+	       		</script>
+			</div>
+			
+        </div>
+	</body>
+</html>

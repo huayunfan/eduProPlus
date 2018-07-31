@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" type="text/css" href="css/row4cols.css">
+		<link rel="stylesheet" type="text/css" href="css/mui.min.css" />
+		<link href="css/row4cols.css">
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+			}
+			
+			.title {
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			
+			<!-- 标准mui.css-->< link rel="stylesheet" href="css/mui.min.css">< link rel="stylesheet" href="css/app.css">< link rel="stylesheet" href="css/row4cols.css">
+		</style>
+
+	</head>
+
+	<body>
+
+		<div class="mui-content">
+
+			<div id="slider" class="mui-slider">
+				<div class="mui-slider-group mui-slider-loop" id="sliderloop">
+					<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#" >
+							<img  id="img0" style="weight:100%;height: 200px;">
+							<p class="mui-slider-title">从这里来添加介绍</p>
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img  id="img1" style="weight:100%;height: 200px;">
+							<p class="mui-slider-title">从这里来添加介绍</p>
+						</a>
+					</div>
+					<div class="mui-slider-item" >
+						<a href="#">
+							<img id="img2" style="weight:100%;height: 200px;">
+							<p class="mui-slider-title">想要一间这样的木屋，静静的喝咖啡</p>
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img  id="img3" style="weight:100%;height: 200px;">
+							<p class="mui-slider-title">Color of SIP CBD</p>
+						</a>
+					</div>
+					<div class="mui-slider-item">
+						<a href="#">
+							<img  id="img4" style="weight:100%;height: 200px;">
+							<p class="mui-slider-title">从这里来添加介绍</p>
+						</a>
+					</div>
+					<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+					<div class="mui-slider-item mui-slider-item-duplicate">
+						<a href="#" style="weight:100%;height: 200px;">
+							<img src="images/shuijiao.jpg" id="img5">
+							<p class="mui-slider-title">幸福就是可以一起睡觉</p>
+						</a>
+					</div>
+				</div>
+				<div class="mui-slider-indicator mui-text-right">
+					<div class="mui-indicator mui-active"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+					<div class="mui-indicator"></div>
+				</div>
+			</div>
+			<br />
+			<div class="segment">
+				<a href="#" id="company" class="segitem">企业介绍</a>
+				<a href="#" id="teacher" class="segitem">师资力量</a>
+				<a href="#" class="segitem">学校位置</a>
+				<a href="#" class="segitem">联系我们</a>
+			</div>
+
+			<!--
+    作者：offline
+    时间：2018-06-24
+    描述：卡片列表
+-->
+
+
+			<div class="mui-card" >
+				<div class="mui-card-header">试听课
+					<a  style="float:right;" id="more_freelisten">更多</a>
+				</div>
+
+				<div id="freelisten1Img" class="mui-card-header mui-card-media" style="height:40vw;background-image:url(images/cbd.jpg)">
+				</div>
+
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p id="freelisten1_time">具体开课时间：昨天</p>
+						<p style="color: #333;" id="freelisten1_name">关于py的课程</p>
+					</div>
+				</div>
+
+				<hr>
+				<div id="freelisten2Img" class="mui-card-header mui-card-media" style="height:40vw;background-image:url(images/cbd.jpg)">
+				</div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p id="freelisten2_time">具体开课时间：昨天</p>
+						<p style="color: #333;" id="freelisten2_name">关于py的课程</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="mui-card">
+				<div class="mui-card-header">付费课
+					<a href="#" style="float:right;" id="more_lesson">更多</a>
+				</div>
+				<div id="lesson1Img" class="mui-card-header mui-card-media" style="height:40vw;background-image:url(images/cbd.jpg)">
+				</div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p id="lesson1_time">具体开课时间：昨天</p>
+						<p style="color: #333;" id="lesson1_name">关于py的课程</p>
+					</div>
+				</div>
+				<hr>
+				<div id="lesson2Img" class="mui-card-header mui-card-media" style="height:40vw;background-image:url(images/cbd.jpg)">
+				</div>
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<p id="lesson2_time">具体开课时间：昨天</p>
+						<p style="color: #333;" id="lesson2_name">关于py的课程</p>
+					</div>
+				</div>
+
+			</div>
+			<br><br><br>
+		</div>
+	</body>
+
+	<script src="js/mui.min.js"></script>
+	<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script>
+	
+	$(function(){
+		//主页课程：显示两条最新的付费课程
+		$.ajax({
+			type:"get",
+			url:"/front/findTwoNewLesson?qid=1",
+			success:lessonsuccessfunction
+		});
+	})
+	function lessonsuccessfunction(data){
+		console.log("么么哒");
+		console.log(data);
+		console.log(data[0].lname);
+		$("#lesson1_name").text(data[0].lname);
+		$("#lesson2_name").text(data[1].lname);
+		$("#lesson1_time").text("发布时间："+new Date(parseInt(data[0].pubtime)).toLocaleString().replace(/:\d{1,2}$/,' '));
+		$("#lesson2_time").text("发布时间："+new Date(parseInt(data[1].pubtime)).toLocaleString().replace(/:\d{1,2}$/,' '));
+		console.log(data[0])
+		console.log(data[1].imgurl);
+		$("#lesson1Img").attr("style","height:40vw;background-image:url(../upload/"+data[0].imgurl+")");
+		$("#lesson2Img").attr("style","height:40vw;background-image:url(../upload/"+data[1].imgurl+")");
+		
+	}
+	$(function(){
+		//主页课程：显示两条最新的免费课程
+		$.ajax({
+			type:"get",
+			url:"/front/findTwoNewFreeListen?qid=1",
+			success:freelistenuccessfunctio
+		});
+	})
+	function freelistenuccessfunctio(data){
+		console.log("么么啾");
+		console.log(data);
+		console.log(data[0].imgurl);
+		$("#freelisten1_name").text(data[0].title);
+		$("#freelisten2_name").text(data[1].title);
+		$("#freelisten1_time").text("发布时间："+new Date(parseInt(data[0].pubtime)).toLocaleString().replace(/:\d{1,2}$/,' '));
+		$("#freelisten2_time").text("发布时间："+new Date(parseInt(data[1].pubtime)).toLocaleString().replace(/:\d{1,2}$/,' '));
+		$("#freelisten1Img").attr("style","height:40vw;background-image:url(../upload/"+data[0].imgurl+")");
+		$("#freelisten2Img").attr("style","height:40vw;background-image:url(../upload/"+data[1].imgurl+")");
+	}
+		
+	$(function(){
+		//主页轮播图片
+		$.ajax({
+			type:"get",
+			url:"/front/getImgs?qid=1",
+			success:imgsuccessfunction
+		});
+	})
+	
+	function imgsuccessfunction(data){
+		console.log("么么啾")
+		console.log(data);
+//		console.log(data[1]);
+		var length = data.length;
+		$("#img0").attr('src','../upload/'+data[length-1]);
+		$("#img1").attr("src","../upload/"+data[0]);
+		$("#img2").attr("src","../upload/"+data[1]);
+		$("#img3").attr("src","../upload/"+data[2]);
+		$("#img4").attr("src","../upload/"+data[3]);
+		$("#img5").attr("src","../upload/"+data[0]);
+		
+//		 var length = data.length;
+		//在开头增加一个节点，节点为最后一张图
+//		var pichead = '<div class="mui-slider-item mui-slider-item-duplicate">'+
+//						'<a href="#">'+
+//						'	<img src="../upload/'+data[length-1].imgurl+'">'+
+//						'	<p class="mui-slider-title">静静看这世界</p>'+
+//						'</a>'+
+//					'</div>';
+//		$("#sliderloop").append(pichead);
+//		for (var i = 0;i<length;i++) {
+	
+//			var pic = '<div class="mui-slider-item" id="img'+data[i].id+'">'+
+//						'<a href="#">'+
+//							'<img src="../upload/'+data[i].imgurl+'">'+
+////							'<p class="mui-slider-title">幸福就是可以一起睡觉</p>'+
+//						'</a>'+
+//					'</div>';
+//			$("#sliderloop").append(pic);
+//		}
+//		//在最后增加一个节点，节点为第一张图
+//		var pictail = '<div class="mui-slider-item mui-slider-item-duplicate">'+
+//						'<a href="#">'+
+//							'<img src="../upload/'+data[0].imgurl+'">'+
+//							'<p class="mui-slider-title">幸福就是可以一起睡觉</p>'+
+//						'</a>'+
+//					'</div>';
+//		$("#sliderloop").append(pictail); 
+	}
+		
+		var slider = mui("#slider");
+		slider.slider({
+			interval: 5000
+		});
+		mui('body').on('tap', 'a', function() {
+			document.location.href = this.href;
+		});
+		mui.plusReady(function() {
+
+			document.getElementById("company").addEventListener("tap", function() {
+				mui.openWindow({
+					url: "home-company-intro.html"
+				});
+			});
+			document.getElementById("teacher").addEventListener("tap", function() {
+				mui.openWindow({
+					url: "home-teacher-list.html"
+				});
+			});
+			document.getElementById("more_freelisten").addEventListener("tap", function() {
+				mui.openWindow({
+					url: "home-more-freelisten.html"
+				});
+			});
+			document.getElementById("more_lesson").addEventListener("tap", function() {
+				mui.openWindow({
+					url: "home-more-lesson.html"
+				});
+			});
+			
+		});
+		
+		
+	</script>
+
+</html>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.BackCompanyMapper">
+
+    <select id="findCompanyByQid" parameterType="int" resultType="com.neu.beans.Enterprise">
+        select * FROM enterprise where qid=#{qid}
+    </select>
+	<update id="editCompany" parameterType="com.neu.beans.Enterprise">
+		update enterprise set name=#{name},videopath=#{videopath},introduction=#{introduction},jczs=#{jczs} where qid=#{qid}
+	</update>
+    <select id="findSwiper" parameterType="int" resultType="com.neu.beans.Swiper">
+        select * from swiper where qid=#{qid}
+    </select>
+    <update id="updateSwiper" parameterType="com.neu.beans.Swiper">
+        update swiper set imgurl=#{imgurl} where id=#{id}
+    </update>
+</mapper>

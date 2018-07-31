@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.FrontLessonMapper">
+
+	<select id="findTypeList" resultType="String">
+	SELECT DISTINCT category FROM lesson 
+	</select>
+	<select id="findLessehByCategory" parameterType="String" resultType="com.neu.beans.Lesson">
+		SELECT * FROM lesson WHERE category = #{category}
+	</select>
+    <select id="getLesssonById" resultType="com.neu.beans.Lesson" parameterType="int">
+    	SELECT * FROM lesson WHERE lid = #{lid} 
+    </select>
+    <select id="getLessonAdderss" resultType="com.neu.beans.Address" parameterType="int">
+    	SELECT * FROM address WHERE id in (SELECT branchid FROM lessonbranch where lid=#{lid}) 
+    </select>
+    <select id="getAddress" resultType="com.neu.beans.Address" parameterType="int" >
+    	SELECT * FROM address WHERE id = #{branchid}
+    </select>
+    <select id="findAddresList" resultType="com.neu.beans.Address" parameterType="int">
+    	SELECT * FROM address WHERE qid = #{qid} AND `status`='正在营业'
+    </select>
+    <select id="findLessonsByAddress" parameterType="int" resultType="com.neu.beans.Lesson">
+    	SELECT * FROM lesson where lesson.lid in (SELECT lessonbranch.lid FROM lessonbranch WHERE branchid = #{branchid})
+    </select>
+    
+   
+    <select id="getFreeListenListByAddress" resultType="com.neu.beans.FreeListen" parameterType="int">
+    	SELECT * FROM freelisten WHERE branchid = #{branchid}
+    </select>
+    
+    
+    
+</mapper>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="css/layui.css">
+   	<script src = "js/jquery-3.3.1.js"></script>
+   	<meta http-equiv="Content-Type" content="multipart/form-data; charset=utf-8" />
+   	<script>
+   	/*jq代码块*/
+	   	window.onload = function loadAll(){
+	   		loading();
+	   		loadPart();
+   		}
+	   	function loading(){
+	   		$.ajax({
+	   			url:"/back/back_getAllMessage",
+	    		success:function(data){
+	    			var card = '';
+	    			for(var i = 0; i < data.length; i++){
+	    				card += '<div class="layui-card" style="margin: 2%">';
+	    				card += '<div class="layui-card-body">';
+	    				card += '<div>';
+	    				card += '<span>'+data[i].address.branch+'</span>';
+	    				card += '<a href = "javascript:deleteMessage('+data[i].mid+','+data[i].messageImg.length+','+data[i].messageLike.length+','+data[i].messageReply.length+')">';
+	    				card += '<span class="layui-icon layui-icon-delete" style="float: right; margin-right: 10px;"></span>';
+	    				card += '</a>';
+	    				card += '<a href = "javascript:editMessage('+data[i].mid+')">';
+	    				card += '<span class="layui-icon layui-icon-edit" style="float: right;margin-right: 13px;"></span>';
+	    				card += '</a>';
+	    				card += '</div>';
+	    				card += '<div class="timeStyle">';
+	    				card += '<span class="wordStyle">Posted on '+new Date(parseInt(data[i].mtime)).toLocaleString().replace(/:\d{1,2}$/,' ')+'</span>';
+	    				card += '</div>';
+	    				card += '</div>';
+	    				card += '<div class="layui-card-body" style="border-top: #d9d9d9 1px solid; ">';
+	    				card += '<div style="width: 350px;">'+data[i].mtitle+'</div>';
+	    				card += '<div class="pictureStyle ">';
+	    				card += '<ul>';
+	    				for(var j = 0; j < data[i].messageImg.length; j++){
+	    					card  += '<li><img class="';
+	    					if(data[i].messageImg[j].flag == 0){
+	    						card  += 'pwidth';
+	    					}else{
+	    						card  += 'pheigh';
+	    					}
+	    					card += '" src="/upload/'+data[i].messageImg[j].imgurl+'"/></li>';
+	    				}
+	    				card += '</ul">';
+	    				card += '</div>';
+	    				card += '</div>';
+	    				card += '<div class="layui-card-body" style="border-top: #d9d9d9 1px solid; ">';
+	    				card += '<div style="width: 350px;">';
+	    				card += '<span class="layui-icon layui-icon-praise" style="color: red;"></span>';
+	    				card += '<span>';
+	    				for(var j = 0; j < data[i].messageLike.length; j++){
+	    					card += data[i].messageLike[j].nickname;
+	    					if(j > 0){
+	    						card += ' 、 ';
+	    					}
+	    				}
+	    				card += '</span>';
+	    				card += '</div>';
+	    				for(var j = 0; j < data[i].messageReply.length; j++){
+	    					card += '<div>';
+	    					card += '<span>'+data[i].messageReply[j].nickname+' : </span>';
+	    					card += '<span style="width: 350px;">'+data[i].messageReply[j].content+'</span>'
+	    					card += '<a href="javascript:deleteMR('+data[i].messageReply[j].id+')" "><span class="layui-icon layui-icon-delete" style="float: right; margin-right: 10px;"></span></a>'
+	    					card += '</div>';
+	    				}
+	    				
+	    				card += '</div>';
+	    				card += '</div>';
+	    				
+	    			}
+	    			$("#card").html(card);
+	    		}
+	    	})
+	    }
+	   	
+	   	function loadPart(){
+	   		$.ajax({
+	   			url: "/back/back_circleOfFriend_getPart",
+	   			type: "get",
+	   			success:function(data){
+	   				partList = "";
+	   				for(var i = 0; i < data.length; i++){
+	   					partList += '<option>'+data[i].branch+'</option>';
+	   				}
+	   				$("#partList").html(partList);
+	   			}
+	   		})
+	   	}
+	   	
+	   	function deleteMR(id){
+	   		$.ajax({
+	   			url: "/back/back_deleteMessageReply",
+	   			data: {"id" : id},
+	   			type: "get",
+	   			success:function(data){
+	   				console.log(data);
+	   				if(data != 0){
+	   					loading();
+	   				}else{
+	   					alert("删除失败");
+	   					loading();
+	   				}
+	   			}
+	   		})
+	   	}
+	   	
+	   	function deleteMessage(mid, imgNumber, likeNumber,replyNumber){
+	   		alert(mid);
+	   		$.ajax({
+	   			url: "/back/deleteMessage",
+	   			data: {"mid" : mid,
+	   				   "imgNumber" : imgNumber,
+	   				   "likeNumber" : likeNumber,
+	   				   "replyNumber" : replyNumber},
+	   			type: "get",
+	   			success:function(){
+	   				loading();
+	   			}
+	   		})
+	   	}
+	   	function editMessage(id){
+	   		
+	   	}
+	</script> 
+    <script>
+    	/*textArea自适应高度*/
+        var autoTextarea = function (elem, extra, maxHeight) {
+            extra = extra || 0;
+            var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+                isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+                addEvent = function (type, callback) {
+                    elem.addEventListener ?
+                        elem.addEventListener(type, callback, false) :
+                        elem.attachEvent('on' + type, callback);
+                },
+                getStyle = elem.currentStyle ? function (name) {
+                    var val = elem.currentStyle[name];
+
+                    if (name === 'height' && val.search(/px/i) !== 1) {
+                        var rect = elem.getBoundingClientRect();
+                        return rect.bottom - rect.top -
+                            parseFloat(getStyle('paddingTop')) -
+                            parseFloat(getStyle('paddingBottom')) + 'px';
+                    }
+                    ;
+
+                    return val;
+                } : function (name) {
+                    return getComputedStyle(elem, null)[name];
+                },
+                minHeight = parseFloat(getStyle('height'));
+
+            elem.style.resize = 'none';
+			
+            var change = function () {
+                var scrollTop, height,
+                    padding = 0,
+                    style = elem.style;
+
+                if (elem._length === elem.value.length) return;
+                elem._length = elem.value.length;
+
+                if (!isFirefox && !isOpera) {
+                    padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+                }
+                ;
+                scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+                elem.style.height = minHeight + 'px';
+                if (elem.scrollHeight > minHeight) {
+                    if (maxHeight && elem.scrollHeight > maxHeight) {
+                        height = maxHeight - padding;
+                        style.overflowY = 'auto';
+                    } else {
+                        height = elem.scrollHeight - padding;
+                        style.overflowY = 'hidden';
+                    }
+                    ;
+                    style.height = height + extra + 'px';
+                    scrollTop += parseInt(style.height) - elem.currHeight;
+                    document.body.scrollTop = scrollTop;
+                    document.documentElement.scrollTop = scrollTop;
+                    elem.currHeight = parseInt(style.height);
+                }
+                ;
+            };
+
+            addEvent('propertychange', change);
+            addEvent('input', change);
+            addEvent('focus', change);
+            change();
+        };
+		
+    	/*图片自适应宽高*/
+    	var fileListAll = [];
+        function setImagePreviews(avalue) {
+            var docObj = document.getElementById("picInput");
+            var fileList = docObj.files;
+            var fileList2 = docObj.files;
+            for (var i = 0; i < fileList.length; i++) {
+                var img = new Image();
+                var path = window.URL.createObjectURL(fileList[i]);
+                fileListAll.push(fileList[i]);
+                img.src = path;
+                img.onload = function () {
+                    if (img.height > img.width) {
+                        dd.innerHTML += "<li><img class = 'pheigh' id='img" + number + "' /></li>";
+                    } else {
+                        dd.innerHTML += "<li><img class = 'pwidth' id='img" + number + "' /></li>";
+                    }
+                    var imgObjPreview = document.getElementById("img" + number);
+                    imgObjPreview.src = path;
+                    number++;
+                }
+            }
+            return true;
+        }
+    	/*隐藏编辑div*/
+        function display() {
+            document.getElementById("hideDiv1").style.display = "block";
+        }
+    	//
+    	function dataURItoBlob(dataURI) {
+		    var byteString = atob(dataURI.split(',')[1]);
+		    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+		    var ab = new ArrayBuffer(byteString.length);
+		    var ia = new Uint8Array(ab);
+		    for (var i = 0; i < byteString.length; i++) {
+		        ia[i] = byteString.charCodeAt(i);
+		    }
+		    return new Blob([ab], {type: mimeString});
+		}
+    	
+   		function sendMessage(){
+	   		var formData = new FormData();
+	   		formData.append("partChoose",encodeURIComponent($("#partChoose").val()));
+	   		formData.append("areaJs",encodeURIComponent($("#areaJs").val()));
+	   		for (var i = 0; i < fileListAll.length; i++){
+   				formData.append("files",fileListAll[i]);
+            }
+            $.ajax({
+            	url: "/back/back_circleOfFriend_setMessage",
+            	data: formData,
+            	type: "post",
+            	processData: false,
+            	contentType: false, 
+            	success:function(data){
+            		location.reload();
+            	}
+            })
+	   	}
+    </script>
+    <style>
+        .timeStyle {
+            margin-left: 0px;
+        }
+
+        .timeStyle .wordStyle {
+            color: #777777;
+            font-style:italic
+        }
+
+        .pictureStyle {
+            width: 350px;
+            margin-left: 0px;
+            overflow: hidden;
+        }
+
+        .pictureStyle ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        .pictureStyle ul li {
+            width: 110px;
+            height: 110px;
+            float: left;
+            overflow: hidden;
+            border: 2px solid #FFFFFF;
+        }
+
+        .pictureStyle .pwidth {
+            height: 100%;
+            width: auto;
+            left: 50%;
+            position: relative;
+            -webkit-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+        }
+
+        .pictureStyle .pheigh {
+            width: 100%;
+            height: auto;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            position: relative;
+        }
+
+        .add1 {
+            display: block;
+        }
+
+        .add2 {
+            display: none;
+        }
+
+        .centerHover:hover .add1 {
+            display: none;
+        }
+
+        .centerHover:hover .add2 {
+            display: block;
+        }
+
+        .areaStyle {
+            border: 1px solid;
+            overflow-x: hidden;
+            width: 96%;
+            height: 45px;
+        }
+
+        .picDiv {
+            width: 110px;
+            height: 110px;
+            overflow: hidden;
+            color: #505050;
+            background-color: #F2F2F2;
+            font-size: 50px;
+            padding-left: 30px;
+            line-height: 110px;
+        }
+
+        .picDiv input {
+            position: absolute;
+            width: 110px;
+            height: 110px;
+            margin-left: -80px;
+            outline: none;
+            background-color: transparent;
+            filter: alpha(opacity=0);
+            -moz-opacity: 0;
+            -khtml-opacity: 0;
+            opacity: 0;
+        }
+
+        .hideDiv {
+            display: none;
+        }
+
+        .clockA:target .hideDiv {
+            display: block;
+        }
+    </style>
+</head>
+
+<body style="background-color: #F2F2F2;">
+<div id = "card"></div>
+
+
+<div class="layui-card" style="margin: 2%">
+    <div class="layui-card-body" style="height:30px; overflow: hidden;">
+        <a class="clockA" href="javascript:display();">
+            <center class="centerHover">
+                <div class="add1 layui-icon layui-icon-add-circle-fine"
+                     style="font-size: 30px; font-weight: 800;"></div>
+                <div class="add2">添加</div>
+            </center>
+        </a>
+    </div>
+</div>
+
+<div id="hideDiv1" class="layui-card hideDiv" style="margin: 2%">
+    <div class="layui-card-body" style=" overflow: hidden;">
+        <div style="margin: 10px; border-bottom: #d9d9d9 1px solid;">
+					<span>
+						选择分部：
+						<input id = "partChoose" style = "width: 80px;" type="text" list = "partList" autocomplete="off" >
+						<datalist id="partList">
+						    <option></option>
+						</datalist>  
+					</span>
+            <span>
+						<a class="layui-icon layui-icon-release" style="float:right; margin:0 10px" href = "javascript:sendMessage()"></a>
+					</span>
+            <span>
+						<a class="layui-icon layui-icon-delete" style="float:right;margin:0 10px" href="#"></a>
+					</span>
+		
+        </div>
+            <div>
+                <center>
+                    <textarea id="areaJs" class="areaStyle"></textarea>
+                    <script>
+                        var text = document.getElementById("areaJs");
+                        autoTextarea(text); // 调用
+                    </script>
+                </center>
+            </div>
+		<form enctype="multipart/form-data">
+            <div class="pictureStyle " style="margin: 10px">
+                <ul>
+                    <div id="pic"></div>
+                    <script>
+                        var dd = document.getElementById("pic");
+                        dd.innerHTML = "";
+                        var number = 0;
+                    </script>
+                    <li>
+                        <div class="picDiv layui-icon layui-icon-picture">
+                            <input type="file" id="picInput" multiple="multiple"
+                                   onchange="javascript:setImagePreviews();" accept="image/*"/>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+
+</html>

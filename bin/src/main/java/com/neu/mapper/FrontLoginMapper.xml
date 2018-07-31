@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.FrontLoginMapper">
+
+	<select id="check" resultType="com.neu.beans.Userlist" parameterType="String">
+	SELECT * FROM userlist where tel=#{phone}
+	</select>
+	
+    <insert id="adduser"  parameterType="String">
+    	insert into userlist (uname,tel,openid,userimg) values (#{phone},#{phone},#{phone},'default.img')
+    </insert>
+	
+</mapper>

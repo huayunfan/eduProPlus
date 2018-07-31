@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.FrontReserveMapper">
+
+	<select id="findAllreserve" resultType="com.neu.po.FreeListenVO">
+	   select  a.address,a.tel,b.title,b.imgurl,DATE_FORMAT(b.pubtime,"%Y-%c-%d") pubtime,DATE_FORMAT(c.booktime,"%Y-%c-%d %h:%i:%s") booktime,c.status from address as a left join freelisten as b on (a.id=b.branchid) left join  freelistenbook as c on(c.fid=b.id) where c.openid='oC9yV5KjYiv_zu6qJ0pm_WlN4LEk' order by c.booktime desc
+	</select>
+	<!-- 这里在之后需要实现获得用户的openid来取得相对应的数据 -->
+	
+	<select id="findreserved" resultType="com.neu.po.FreeListenVO">
+	   select  a.address,a.tel,b.title,b.imgurl,DATE_FORMAT(b.pubtime,"%Y-%c-%d") pubtime,DATE_FORMAT(c.booktime,"%Y-%c-%d %h:%i:%s") booktime,c.status from address as a left join freelisten as b on (a.id=b.branchid) left join  freelistenbook as c on(c.fid=b.id) where c.openid='oC9yV5KjYiv_zu6qJ0pm_WlN4LEk' and c.status='已处理' order by c.booktime desc
+	</select>
+	
+	<select id="findreserveing" resultType="com.neu.po.FreeListenVO">
+	   select  a.address,a.tel,b.title,b.imgurl,DATE_FORMAT(b.pubtime,"%Y-%c-%d") pubtime,DATE_FORMAT(c.booktime,"%Y-%c-%d %h:%i:%s") booktime,c.status from address as a left join freelisten as b on (a.id=b.branchid) left join  freelistenbook as c on(c.fid=b.id) where c.openid='oC9yV5KjYiv_zu6qJ0pm_WlN4LEk' and c.status='待处理' order by c.booktime desc
+	</select>
+</mapper>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>全部预约</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="css/mui.min.css">
+    <link rel="stylesheet" href="css/myreserve.css">
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.0.js"></script>
+    <script>
+    $(function(){
+	   	 	  //这个界面还有两个未完成的点 
+	   	 	  //1.根据微信用户的openid来在数据库中索引
+	   	 	  //2.为每一个card添加链接到课程详情页面
+	   	 	  //status的颜色显示
+	   	 	  
+	   $.ajax({
+		   url:"ajaxallreserve",
+		   success:function(data)
+		   {
+			   for(var i=0; i<data.length;i++)
+			   {
+				   var card = '<div class="reservecard">';
+				   card+='<div class="reservecard_up">';
+				   card+='<div class="reservecard_time">'+data[i].booktime+'&nbsp预约</div>';
+				   if(data[i].status=="待处理")
+					   {
+					   card+='<div class="reservecard_state_checking">'+data[i].status+'</div></div>';
+					   }
+				   else
+					   {
+					   card+='<div class="reservecard_state_success">'+data[i].status+'</div></div>';
+					   }			   
+				   card+='<div class="reservecard_body"><div class="reservecard_pic"><img src="images/'+data[i].imgurl+'"></div>';
+				   card+='<div class="reservecard_intr"><p>'+data[i].title+'</p><span class="time_p">'+data[i].pubtime+'开课</span><br/>';
+				   card+='开课地点:'+data[i].address+'<br>联系电话:'+data[i].tel+'</div></div>';
+				   card+='<div class="reservecard_down"><div class="to_detail"></div>';				   
+				   card+='</div></div>';
+			       $("#reservecardback").append(card);				   
+			   }
+
+		   }		   
+	   })
+	   	   
+})
+</script>
+    <style>
+        html,
+        body {
+            background-color: #efeff4;
+        }
+
+        .title {
+            padding: 20px 15px 10px;
+            color: #6d6d72;
+            font-size: 15px;
+            background-color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+<div class="reservecardback" id="reservecardback">
+
+</div>
+
+<script src="js/mui.min.js"></script>
+<script>
+    mui.init({
+        swipeBack: false,
+        keyEventBind: {
+            backbutton: false //关闭back按键监听
+        }
+    });
+</script>
+</body>
+
+
+</html>

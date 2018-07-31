@@ -1,0 +1,76 @@
+
+.teachercard
+{
+	height: auto;
+	box-shadow: 0 0px 1px rgba(0,0,0,.3);
+    clear: both;
+}
+
+
+.teacher_pic
+{
+	float: right;
+	height: 95px;
+	width: 95px;
+	overflow: hidden;
+   margin: 7px 20px 8px auto;
+}
+.teacher_pic img
+{
+	height: 95px;
+	width: 95px;
+    display: flex;
+    border-radius: 50%;
+    overflow: hidden;
+    left: 50%;			
+    position: relative;	
+    -webkit-transform: translateX(-50%);
+	-ms-transform: translateX(-50%);
+	-moz-transform: translateX(-50%);
+	
+}
+
+.teacher_intr
+{
+	height: auto;	
+	width: 220px;
+	float: left;
+	margin: 6px auto 6px 15px;
+	word-wrap:break-word;
+    word-break:break-all;
+    font-size: 11px;
+	color: #8f8f94;
+	overflow: hidden;
+	line-height: 18px;
+	
+}
+
+.teacher_intr p
+{
+	color: #F0AD4E;
+	font-family: "黑体";
+	font-size: 14px;
+	word-wrap:break-word;
+    word-break:break-all;
+    margin-bottom: 0px;
+    
+}
+
+
+.ordercard_down
+{
+	height: 30px;
+}
+
+.orderbutton
+{
+	float: right;
+	background-color: transparent;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0;
+    margin: 2px 12px 8px auto;
+    border-radius:3px;   
+    height: 20px;
+    width: 20px;
+}

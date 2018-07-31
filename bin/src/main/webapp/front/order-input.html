@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css">
+		<!--App自定义的css-->
+		<!-- <link rel="stylesheet" type="text/css" href="../css/app.css" /> -->
+		<style>
+			h5 {
+				margin: 5px 7px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h5>预约课程</h5>
+		<form class="mui-card" style="border-radius: 10px;" action='#' method="post" name="Form">
+			<div class="mui-input-row" style="margin:2px 2px;border: 1px solid #C0C0C0;border-radius:10px">
+				<label style="width: 120px;">姓名：</label>
+				<input id="nickname" style="float:left" type="text" placeholder="请输入真实姓名">
+			</div>
+			<div class="mui-input-row" style="margin:2px 2px;border: 1px solid #C0C0C0;border-radius:10px">
+				<label style="width: 120px;">电话：</label>
+				<input id="tel" style="float:left" type="text" placeholder="请输入真实电话">
+			</div>
+			<div class="mui-input-row">
+				<label>备注：</label>
+			</div>
+
+			<div class="mui-input-row" style="margin: 5px 2px;">
+				<textarea id="textarea" style="margin-bottom: 0px;" rows="5" placeholder="输入必要备注"></textarea>
+			</div>
+			<div class="mui-button-row">
+				<button type="submit" class="mui-btn mui-btn-danger" style="margin-bottom: 5px; " id='btn' >预约</button>
+			</div>
+		</form>
+
+	</body>
+	<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+	<script>
+		function GetRequest() {
+			var url = location.search; //获取url中"?"符后的字串 
+			var theRequest = new Object();
+			if(url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for(var i = 0; i < strs.length; i++) {
+					theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+				}
+			}
+			return theRequest;
+		}
+		var request = new Object();
+		request = GetRequest();
+		var lid = request["lid"];
+		var branchid = request["branchid"];
+
+		$(function() {
+			$("#btn").click(function(){
+				var nickname = $("#nickname").val();
+				var tel = $("#tel").val();
+				
+				$.ajax({
+					type: "get",
+					url: "/front/addOrder",
+					async: false,
+					data: {
+						lid: lid,
+						branchid: branchid,
+						nickname: nickname,
+						tel: tel
+					},
+					dataType:"json",
+					success:function(data){
+						/* console.log("成功"); */
+						mui.openWindow({
+							url: "my-order.html"
+					});
+					}
+				});
+				
+			});
+		});
+		
+		
+		function successfun(data){
+			alert(data);
+		}
+	</script>
+
+</html>

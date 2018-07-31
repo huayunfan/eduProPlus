@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台系统</title>
+    <link rel="stylesheet" href="css/layui.css">
+    <script src="js/jquery-3.3.1.js">
+    </script>
+    <script src="layui.all.js"></script>
+    
+      <style>
+    	/*CSS green-black style pagination*/ 
+        
+		DIV.green-black { 
+		    PADDING-RIGHT: 3px; 
+		    PADDING-LEFT: 3px; 
+		    PADDING-BOTTOM: 3px; 
+		    PADDING-TOP: 3px; 
+		    TEXT-ALIGN: center 
+		} 
+		
+		DIV.green-black A { 
+		    BORDER-RIGHT: #d9d9d9 1px solid; 
+		    padding: 5px 10px;
+		    BORDER-TOP: #d9d9d9  1px solid; 
+		    BACKGROUND: #FFFFFF; 
+		    BORDER-LEFT: #d9d9d9  1px solid; 
+		    COLOR: #000000; 
+		    MARGIN-RIGHT: 1px; 
+		    BORDER-BOTTOM: #d9d9d9  1px solid; 
+		    TEXT-DECORATION: none 
+		} 
+		
+		DIV.green-black A:hover { 
+		    BORDER-RIGHT: #009688 1px solid; 
+		    BORDER-TOP: #009688 1px solid; 
+		    BACKGROUND:#009688; 
+		    BORDER-LEFT: #009688 1px solid; 
+		    COLOR: #fff; 
+		    BORDER-BOTTOM: #009688 1px solid 
+		} 
+		
+		DIV.green-black A:active { 
+		    BORDER-RIGHT: #009688 1px solid; 
+		    BORDER-TOP: #009688 1px solid; 
+		    BACKGROUND: #009688; 
+		    BORDER-LEFT: #009688 1px solid; 
+		    COLOR: #fff; 
+		    BORDER-BOTTOM: #009688 1px solid 
+		} 
+		
+		DIV.green-black a.current { 
+		    BORDER-RIGHT: #009688 1px solid; 
+		    padding: 5px 10px;
+		    BORDER-TOP: #009688 1px solid; 
+		    FONT-WEIGHT: bold; 
+		    BACKGROUND:#009688; 
+		    BORDER-LEFT: #009688 1px solid; 
+		    COLOR: #fff; 
+		    MARGIN-RIGHT: 2px; 
+		    BORDER-BOTTOM: #009688 1px solid 
+		} 
+		/*前一页、后一页无任何css样式*/ 
+		DIV.green-black span.disabled {
+		    BORDER-RIGHT: #d9d9d9 1px solid; 
+		    PADDING: 5px 10px; 
+		    BORDER-TOP: #d9d9d9 1px solid;
+		    BORDER-LEFT: #d9d9d9 1px solid; 
+		    COLOR: #ccc; 
+		    MARGIN-RIGHT: 2px;
+		    BORDER-BOTTOM: #d9d9d9 1px solid 
+		} 
+    </style>
+    <script>
+	    var pageNmber = 0;//ajax获取页数
+		var currectPage = 1;
+		window.onload = function getAllPage(){
+			$.ajax({
+   				url: "/back/getPageNumber",
+   				type: "get",
+   				async: false,
+   				success:function(data){
+   					pageNmber = data;
+   				}
+   			})
+			getMessage(currectPage);
+			getPageNumber(currectPage)
+		}
+		
+	    function getMessage(currectPage){
+            $.ajax({
+                url: '/back/findtrial',
+                data: {"currectPage" : currectPage},
+                type: 'get',
+                success: function (data) {
+                    console.log(data);
+                    var tr = '';
+                    for (i = 0; i < data.length; i++) {
+                    	tr += '<tr id="id_' + data[i].id + '">';
+                        tr += '<td>' + data[i].id + '</td>';
+                        tr += '<td>' + data[i].title + '</td>';
+                        tr += '<td>' + data[i].status + '</td>';
+                        tr += '<td>' + '<img src="../upload/' + data[i].imgurl + '"/></td>';
+                        tr += '<td>\n' +
+                            '            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="window.location.href=\'view_trial.html?id=' + data[i].id + '\'">\n' +
+                            '                <i class="layui-icon layui-icon-list"></i>\n' +
+                            '            </button>\n' +
+                            '        </td>\n' +
+                            '        <td>\n' +
+                            '            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="window.location.href=\'edit_trial.html?id=' + data[i].id + '\'">\n' +
+                            '                <i class="layui-icon layui-icon-edit"></i>\n' +
+                            '            </button>\n' +
+                            '        </td>\n' +
+                            '        <td>\n' +
+                            '            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="delete_id(' + data[i].id + ')">\n' +
+                            '                <i class="layui-icon layui-icon-delete"></i>\n' +
+                            '            </button>\n' +
+                            '        </td>'
+                        tr += '</tr>';
+                    }
+                    $("#tab").html(tr);
+                }
+            })
+        }
+
+        function delete_id(i) {
+            console.log(i);
+            // alert("delete" + i);
+            //删除对应行（tr）的DOM结构，并更新缓存
+            layer.confirm('确认删除？', function (index) {
+                //do something
+                console.log(true);
+                $.ajax({
+                    url: "/back/deletetrial",
+                    type: "post",
+                    data: {"id": i},
+                    dataType: "json",
+                    success: function (data) {
+                        layer.msg("删除成功");
+                        console.log("#id_" + i);
+                        $("#id_" + i).remove();
+                    },
+                    error: function (data) {
+                        layer.msg("删除失败")
+                    }
+                });
+                layer.close(index);
+            });
+
+        }
+        
+        
+      //页码模块，需要与获取在尾部加上几个获取功能。
+	    function getPageNumber(currectPage){
+			var page_number = '';
+			if(pageNmber <= 9){
+				if(currectPage == 1){
+					page_number += '<span class="disabled">< Prev</span>';
+				}else{
+					page_number += '<a href="javascript:prev()">< Prev</a>';
+				}
+				for(var i = 1; i <= pageNmber; i++){
+					if(i == currectPage){
+						page_number += '<a class="current" href="">'+i+'</a>';
+					}else{
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+				}
+				if(currectPage == pageNmber){
+					page_number += '<span class="disabled">Next ></span>';
+				}else{
+					page_number += '<a href="javascript:next()">Next > </a>';
+				}
+			}else{
+				if(currectPage - 5 < 0){
+					if(currectPage == 1){
+						page_number += '<span class="disabled">< Prev</span>';
+					}else{
+						page_number = '<a href="javascript:prev()">< Prev</a>';
+					}
+					for(var i = 1; i <= 7; i++){
+						if(i == currectPage){
+							page_number += '<a class="current" href="">'+i+'</a>';
+						}else{
+							page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+						}
+					}
+					page_number += '...';
+					for(var i = pageNmber - 1; i <= pageNmber; i++){
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+					page_number += '<a href="javascript:next()">Next > </a>';
+				}else if(currectPage + 5 > pageNmber){
+					page_number += '<a href="javascript:prev()">< Prev</a>';
+					for(var i = 1; i <= 2; i++){
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+					page_number += '...';
+					for(var i = pageNmber - 6; i <= pageNmber; i++){
+						if(i == currectPage){
+							page_number += '<a class="current" href="">'+i+'</a>';
+						}else{
+							page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+						}
+					}
+					if(currectPage == pageNmber){
+						page_number += '<span class="disabled">Next ></span>';
+					}else{
+						page_number += '<a href="javascript:next()">Next > </a>';
+					}
+				}else{
+					page_number += '<a href="javascript:prev()">< Prev</a>';
+					for(var i = 1; i <= 2; i++){
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+					page_number += '...';
+					for(var i = currectPage - 2; i <= currectPage + 2; i++){
+						if(i == currectPage){
+							page_number += '<a class="current" href="">'+i+'</a>';
+						}else{
+							page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+						}
+					}
+					page_number += '...';
+					for(var i = pageNmber - 1; i <= pageNmber; i++){
+						page_number += '<a href="javascript:setPage('+i+')" id = "pageOrder">'+i+'</a>';
+					}
+					page_number += '<a href="javascript:next()">Next > </a>';
+				}
+			}
+			$("#page_number").html(page_number);
+		}
+		
+		
+		function prev(){
+			if(currectPage > 1){
+				currectPage--;
+			}
+			getMessage(currectPage);
+   			getPageNumber(currectPage);
+		}
+		
+		function next(){
+			if(currectPage < pageNmber){
+				currectPage++;
+			}
+			getMessage(currectPage);
+   			getPageNumber(currectPage);
+		}
+		
+		function setPage(pageOrder){
+			currectPage = pageOrder;
+			getMessage(currectPage);
+   			getPageNumber(currectPage);
+		}
+    </script>
+</head>
+
+<body style="background-color: #F2F2F2;">
+
+<div style="float:right">
+    <button class="layui-btn layui-btn-lg" onclick="window.location.href='edit_trial.html?id=0'">
+    	添加
+    </button>
+</div>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>试听课列表</legend>
+</fieldset>
+
+<table class="layui-table" lay-skin="line" id="tab">
+    <colgroup>
+        <col width="100">
+        <col width="350">
+        <col width="100">
+        <col width="250">
+        <col width="50">
+        <col width="50">
+        <col width="50">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>课程编号</th>
+        <th>课程名称</th>
+        <th>状态</th>
+        <th>图片</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<center>
+  <div id = "page_number" class="green-black">
+  	<div class="green-black">
+	</div>
+	</div>
+</center>
+
+</body>
+
+</html>

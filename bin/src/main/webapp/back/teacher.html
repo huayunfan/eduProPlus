@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>后台系统</title>
+    <link rel="stylesheet" href="css/layui.css">
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="layui.js"></script>
+    <script>
+        layui.use(['layer'], function(){
+            layer = layui.layer;
+
+            // layer.msg('Hello World');
+        });
+        function delete_id(i) {
+            console.log(i);
+            // alert("delete" + i);
+            //删除对应行（tr）的DOM结构，并更新缓存
+            layer.confirm('确认删除？', function(index){
+                //do something
+                console.log(true);
+                $.ajax({
+                    url: "/back/deleteteacher",
+                    type: "post",
+                    data: {"tid": i},
+                    dataType: "json",
+                    success: function (data) {
+                        layer.msg("删除成功");
+                        console.log("#tid_" + i);
+                        $("#tid_" + i).remove();
+                    },
+                    error:function (data) {
+                        layer.msg("删除失败")
+                    }
+                });
+                layer.close(index);
+            });
+
+        }
+        $(function () {
+            $.ajax({
+                url:"/back/findteachers",
+                type:"get",
+                dataType:"json",
+                success:function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        var tr = '<tr id="tid_'+data[i].tid+'">';
+                        tr += '<td>' + data[i].tname + '</td>';
+                        tr += '<td>' + '<img src="../upload/'+data[i].tphoto + '"/></td>';
+                        tr += '<td>' + data[i].introduction + '</td>';
+                        tr+='<td>\n' +
+                            '            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="window.location.href=\'edit_teacher.html?id=' +data[i].tid+
+                            '\'">\n' +
+                            '                <i class="layui-icon layui-icon-edit"></i>\n' +
+                            '            </button>\n' +
+                            '        </td>\n' +
+                            '        <td>\n' +
+                            '            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="delete_id('+data[i].tid+')">\n' +
+                            '                <i class="layui-icon layui-icon-delete" ></i>\n' +
+                            '            </button>\n' +
+                            '        </td>';
+                        tr += '</tr>';
+                        $("#tab").append(tr);
+                }
+                }
+            })
+        })
+
+    </script>
+</head>
+
+<body style="background-color: #F2F2F2;">
+<div style="float:right">
+    <button class="layui-btn layui-btn-lg" onclick="window.location.href='edit_teacher.html?id=0'">
+    	添加
+    </button>
+</div>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>讲师列表</legend>
+</fieldset>
+
+<table class="layui-table" lay-skin="line" id="tab">
+    <colgroup>
+        <col width="100">
+        <col width="150">
+        <col width="300">
+        <col width="50">
+        <col width="50">
+    </colgroup>
+    <thead>
+    <tr>
+        <th>讲师姓名</th>
+        <th>图片</th>
+        <th>简介</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<center>
+    <div id="test1"></div>
+</center>
+
+
+<script src="layui.js"></script>
+<script>
+    layui.use('laypage', function () {
+        var laypage = layui.laypage;
+
+        //执行一个laypage实例
+        laypage.render({
+            elem: 'test1' //注意，这里的 test1 是 ID，不用加 # 号
+            ,
+            count: 50 //数据总数，从服务端得到
+        });
+    });
+</script>
+</body>
+
+</html>

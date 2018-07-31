@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.BackGetAllMessageMapper">
+	<resultMap type="com.neu.beans.Message" id="mes_img_like_reply">
+		<id property = "mid" column ="mid"/>
+		<result property="mtitle" column="mtitle"/>
+		<result property="mtime" column="mtime"/>
+		<result property="qid" column="qid"/>
+		<association property="address" javaType="com.neu.beans.Address">
+            <id property="id" column="a_id" />
+            <result property="qid" column="a_qid" />
+            <result property="branch" column="branch" />
+            <result property="address" column="address" />
+            <result property="tel" column="tel" />
+            <result property="longitude" column="longitude" />
+            <result property="latitude" column="latitude" />
+        </association>
+		<collection property="messageImg" column="mid" ofType="com.neu.beans.MessageImg">
+			<id property = "id" column ="mi_id"/>
+			<result property="imgurl" column="imgurl"/>
+			<result property="flag" column="flag"/>
+		</collection>
+		<collection property="messageLike" column="mid" ofType="com.neu.beans.MessageLike">
+			<id property = "id" column ="ml_id"/>
+			<result property="nickname" column="ml_nickname"/>
+			<result property="stime" column="stime"/>
+		</collection>
+		<collection property="messageReply" column="mid" ofType="com.neu.beans.MessageReply">
+			<id property = "id" column ="mr_id"/>
+			<result property="content" column="content"/>
+			<result property="nickname" column="mr_nickname"/>
+			<result property="stime" column="stime"/>
+		</collection>
+	</resultMap>
+
+    <select id="getAllMessage" parameterType="int" resultMap="mes_img_like_reply" >
+    		select m.mid, mtitle, mtime, m.qid, mi.id mi_id, imgurl, ml.id ml_id,ml.nickname ml_nickname,
+				 mr.id mr_id, mr.nickname mr_nickname, content, a.id a_id, branch
+			from message m
+					 left join messageimg mi on m.mid = mi.mid
+					 left join messagelike ml on m.mid = ml.mid
+					 left join messagereply mr on m.mid = mr.mid,
+					 address a
+			where a.id = m.branchid and m.qid = #{id}
+			order by mid asc
+    </select>
+    
+    <select id = "getPart" resultType = "com.neu.beans.Address">
+    	select id, branch
+    	from address
+    	where address.status = "正在营业" and address.qid = #{qid}
+    </select>
+    
+    <insert id = "setMessage">
+    	insert into message(mid, mtitle, mtime, qid, branchid)
+		values (#{mid}, #{areaJs}, now(), #{qid}, #{branchid})
+    </insert>
+    
+    <select id = "getNewMid" resultType = "int">
+    	select max(mid) + 1 from message
+    </select>
+    
+    <select id = "getBranchId" resultType = "int">
+    	select id from address where branch = #{partChoose}
+    </select>
+    
+    <insert id = "setMessageImg">
+    	insert messageimg 
+		values (#{id}, #{mid}, #{pathOfPicture})
+    </insert>
+    
+    <select id = "getNewId" resultType = "int">
+    	select max(id) + 1 from messageimg
+    </select>
+    
+</mapper>
