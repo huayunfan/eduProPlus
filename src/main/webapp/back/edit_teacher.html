@@ -67,7 +67,7 @@
                     console.log(data);
                     $("#name").val(data.tname);
                     $("#des").val(data.introduction);
-                    $('#demo1').attr('src', '../upload/'+data.tphoto);
+                    $('#demo1').attr('src', data.tphoto);
                     img=data.tphoto;
                 }
             })

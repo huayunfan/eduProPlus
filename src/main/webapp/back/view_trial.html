@@ -21,7 +21,7 @@
                 success: function (data) {
                     $("#id").append(data.id);
                     $("#title").html(data.title);
-                    $("#img").append('<img src=\"/upload/' + data.imgurl + '\" style=\"width:40%\">');
+                    $("#img").append('<img src=\"' + data.imgurl + '\" style=\"width:40%\">');
                     $("#des").append(data.fdesc);
                     $("#status").append(data.status);
                     $("#branch").append(data.address.branch);
