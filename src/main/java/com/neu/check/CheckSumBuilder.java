@@ -2,12 +2,12 @@ package com.neu.check;
 import java.security.MessageDigest;
 
 public class CheckSumBuilder {
-    // ¼ÆËã²¢»ñÈ¡CheckSum
+    // è®¡ç®—å¹¶è·å–CheckSum
     public static String getCheckSum(String appSecret, String nonce, String curTime) {
         return encode("sha1", appSecret + nonce + curTime);
     }
 
-    // ¼ÆËã²¢»ñÈ¡md5Öµ
+    // è®¡ç®—å¹¶è·å–md5å€¼
     public static String getMD5(String requestBody) {
         return encode("md5", requestBody);
     }

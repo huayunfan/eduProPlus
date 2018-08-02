@@ -24,14 +24,14 @@ public class FrontLessonHandler {
 	@Autowired
 	FrontLessonService lessonService;
 	
-//	Í¨¹ı¿Î³ÌÀàĞÍÀ´ÏÔÊ¾
+//	é€šè¿‡è¯¾ç¨‹ç±»å‹æ¥æ˜¾ç¤º
 	@RequestMapping(value="/front/findLessons")
 	@ResponseBody
 	public Map<String, List<Lesson>> findLessons() throws Exception{
 		return lessonService.findLessonListByCategory();
 	}
 	
-//	²éÕÒÄ³¸ö¿Î³ÌÏêÇé
+//	æŸ¥æ‰¾æŸä¸ªè¯¾ç¨‹è¯¦æƒ…
 	@RequestMapping(value = "/front/findLessonById")
 	@ResponseBody
 	public LessonAndAddress findLessonById(Integer lid, Integer branchid) throws Exception{
@@ -43,20 +43,20 @@ public class FrontLessonHandler {
 //			map.put("branchid", branchid);
 			lessonAndAddress = lessonService.findLessonAndAddressById( lid, branchid);
 		}else{
-			System.out.println("...................Ã»ÓĞ´«ÈëÊı¾İ");
+			System.out.println("...................æ²¡æœ‰ä¼ å…¥æ•°æ®");
 			lessonAndAddress = null;
 		}
 		return lessonAndAddress;
 	}
 	
-//	Í¨¹ıµØÖ·À´ÏÔÊ¾¿Î³Ì
+//	é€šè¿‡åœ°å€æ¥æ˜¾ç¤ºè¯¾ç¨‹
 	@RequestMapping(value="/front/findLessonsByAddress")
 	@ResponseBody
 	public List<AddressandLesson> findLessonsByAddress(int qid) throws Exception{
 		return lessonService.findLessonsByAddress(qid);
 	}
 	
-//	Í¨¹ıµØÖ·ÏÔÊ¾ÊÔÌı¿Î
+//	é€šè¿‡åœ°å€æ˜¾ç¤ºè¯•å¬è¯¾
 	@RequestMapping(value="/front/findFreelisten")
 	@ResponseBody
 	public List<FreeListenByAddress> findFreelisten(int qid) throws Exception{

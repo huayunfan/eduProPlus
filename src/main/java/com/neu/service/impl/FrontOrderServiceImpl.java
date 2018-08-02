@@ -25,7 +25,7 @@ public class FrontOrderServiceImpl implements FrontOrderService {
 		List<OrderVO> list=new ArrayList<OrderVO>();
 		List<SOrder> orderList = null;			
 		try {
-			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//这个方法 后面做成 获取 openid  作为参数 传入的！！！！！！
+			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//???? ???? ?? openid  ???? ?????????
 			
 			for (SOrder sOrder : orderList) {
 				OrderVO ordervo = new OrderVO();
@@ -49,11 +49,11 @@ public class FrontOrderServiceImpl implements FrontOrderService {
 		List<OrderVO> list=new ArrayList<OrderVO>();
 		List<SOrder> orderList = null;			
 		try {
-			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//这个方法 后面做成 获取 openid  作为参数 传入的！！！！！！
+			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//???? ???? ?? openid  ???? ?????????
 			
 			for (SOrder Sorder : orderList) {
 				OrderVO ordervo = new OrderVO();
-				if(Sorder.getStatus().equals("待付款"))
+				if(Sorder.getStatus().equals("???"))
 				{
 					Lesson lesson = mapper.getLesssonById(Sorder.getLid());
 					Address address = mapper.getLessonAdderss(Sorder.getBranchid());
@@ -76,11 +76,11 @@ public class FrontOrderServiceImpl implements FrontOrderService {
 		List<OrderVO> list=new ArrayList<OrderVO>();
 		List<SOrder> orderList = null;			
 		try {
-			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//这个方法 后面做成 获取 openid  作为参数 传入的！！！！！！
+			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//???? ???? ?? openid  ???? ?????????
 			
 			for (SOrder Sorder : orderList) {
 				OrderVO ordervo = new OrderVO();
-				if(Sorder.getStatus().equals("已付款"))
+				if(Sorder.getStatus().equals("???"))
 				{
 					Lesson lesson = mapper.getLesssonById(Sorder.getLid());
 					Address address = mapper.getLessonAdderss(Sorder.getBranchid());
@@ -103,11 +103,11 @@ public class FrontOrderServiceImpl implements FrontOrderService {
 		List<OrderVO> list=new ArrayList<OrderVO>();
 		List<SOrder> orderList = null;			
 		try {
-			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//这个方法 后面做成 获取 openid  作为参数 传入的！！！！！！
+			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//???? ???? ?? openid  ???? ?????????
 			
 			for (SOrder Sorder : orderList) {
 				OrderVO ordervo = new OrderVO();
-				if(Sorder.getStatus().equals("已使用"))
+				if(Sorder.getStatus().equals("???"))
 				{
 					Lesson lesson = mapper.getLesssonById(Sorder.getLid());
 					Address address = mapper.getLessonAdderss(Sorder.getBranchid());
@@ -130,11 +130,11 @@ public class FrontOrderServiceImpl implements FrontOrderService {
 		List<OrderVO> list=new ArrayList<OrderVO>();
 		List<SOrder> orderList = null;			
 		try {
-			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//这个方法 后面做成 获取 openid  作为参数 传入的！！！！！！
+			orderList=mapper.getOrderByOpenid("oC9yV5KjYiv_zu6qJ0pm_WlN4LEk");//???? ???? ?? openid  ???? ?????????
 			
 			for (SOrder Sorder : orderList) {
 				OrderVO ordervo = new OrderVO();
-				if((Sorder.getStatus().equals("退款中"))||(Sorder.getStatus().equals("已退款")))
+				if((Sorder.getStatus().equals("???"))||(Sorder.getStatus().equals("???")))
 				{
 					Lesson lesson = mapper.getLesssonById(Sorder.getLid());
 					Address address = mapper.getLessonAdderss(Sorder.getBranchid());

@@ -4,6 +4,9 @@ import com.neu.beans.Enterprise;
 import com.neu.beans.Swiper;
 import com.neu.beans.User;
 import com.neu.service.BackCompanyService;
+import com.neu.util.FastDFSFile;
+import com.neu.util.FileManager;
+import org.csource.common.NameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,16 +66,21 @@ public class BackCompanyHandler {
     public Map<String, Object> uploadmul(HttpServletRequest request, MultipartFile[] file) {
         List<Data> data = new ArrayList<>();
         String path = request.getServletContext().getRealPath("/");
-        File f = new File(path);
-        String ppath = f.getParent();
-        path = path + "/upload";
+//        File f = new File(path);
+//        String ppath = f.getParent();
+//        path = path + "/upload";
         Map<String, Object> map = new HashMap<>();
         try {
             for (MultipartFile multipartFile : file) {
                 String filename = System.currentTimeMillis() + multipartFile.getOriginalFilename();
-                File dest = new File(path, filename);
-                multipartFile.transferTo(dest);
-                data.add(new Data(filename));
+                FastDFSFile fastDFSFile = new FastDFSFile(multipartFile.getBytes(), filename.substring(filename.lastIndexOf(".")+1));
+                NameValuePair[] meta_list = new NameValuePair[4];
+                meta_list[0] = new NameValuePair("fileName", filename);
+                meta_list[1] = new NameValuePair("fileLength", String.valueOf(multipartFile.getSize()));
+                meta_list[2] = new NameValuePair("fileExt", filename.substring(filename.lastIndexOf(".")+1));
+                meta_list[3] = new NameValuePair("fileAuthor", "EduPro");
+                String filePath = FileManager.upload(fastDFSFile,meta_list);
+                data.add(new Data(filePath));
             }
         } catch (IOException e) {
             e.printStackTrace();

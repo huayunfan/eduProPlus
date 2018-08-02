@@ -19,6 +19,9 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.neu.util.FastDFSFile;
+import com.neu.util.FileManager;
+import org.csource.common.NameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,17 +42,17 @@ public class BackCircleOfFriendShowHandler {
 		for(Message r : result) {
 			for(MessageImg m : ((Message) r).getMessageImg()) {
 				System.out.println(request.getServletContext().getRealPath("/"));
-				File file = new File(request.getServletContext().getRealPath("/") + "upload/" + m.getImgurl());
-				System.out.println(file.getCanonicalPath());
-				FileInputStream fis = new FileInputStream(file);
-				BufferedImage bufferedImg = ImageIO.read(fis);
-				int imgWidth = bufferedImg.getWidth();
-				int imgHeight = bufferedImg.getHeight();
-				if(imgWidth > imgHeight) {
-					m.setFlag(0);
-				}else {
-					m.setFlag(1);
-				}
+//				File file = new File(request.getServletContext().getRealPath("/") + "upload/" + m.getImgurl());
+//				System.out.println(file.getCanonicalPath());
+//				FileInputStream fis = new FileInputStream(file);
+//				BufferedImage bufferedImg = ImageIO.read(fis);
+//				int imgWidth = bufferedImg.getWidth();
+//				int imgHeight = bufferedImg.getHeight();
+//				if(imgWidth > imgHeight) {
+//					m.setFlag(0);
+//				}else {
+//					m.setFlag(1);
+//				}
 			}
 		}
 		System.out.println(result);
@@ -78,11 +81,20 @@ public class BackCircleOfFriendShowHandler {
 		String path;
 		List<String> pathOfPicture = new ArrayList<>();
 		for(MultipartFile file : files) {
-			System.out.println(file.getOriginalFilename());
-			path =  (new Date().getTime()) + file.getOriginalFilename();
-			pathOfPicture.add(path);
-			System.out.println(pathOfService + path);
-			file.transferTo(new File(pathOfService + "upload/" + path));
+//			System.out.println(file.getOriginalFilename());
+//			path =  (new Date().getTime()) + file.getOriginalFilename();
+			String filename = System.currentTimeMillis() + file.getOriginalFilename();
+			FastDFSFile fastDFSFile = new FastDFSFile(file.getBytes(), filename.substring(filename.lastIndexOf(".")+1));
+			NameValuePair[] meta_list = new NameValuePair[4];
+			meta_list[0] = new NameValuePair("fileName", filename);
+			meta_list[1] = new NameValuePair("fileLength", String.valueOf(file.getSize()));
+			meta_list[2] = new NameValuePair("fileExt", filename.substring(filename.lastIndexOf(".")+1));
+			meta_list[3] = new NameValuePair("fileAuthor", "EduPro");
+			String filePath = FileManager.upload(fastDFSFile,meta_list);
+			pathOfPicture.add(filePath);
+			System.out.println(filePath);
+//			System.out.println(pathOfService + path);
+//			file.transferTo(new File(pathOfService + "upload/" + path));
 		}
 		backGetAllMessageService.setMessage(user.getQid(), partChoose, areaJs, pathOfPicture);
 	}

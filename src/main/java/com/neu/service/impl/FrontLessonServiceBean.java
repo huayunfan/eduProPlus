@@ -55,7 +55,7 @@ public class FrontLessonServiceBean implements FrontLessonService {
 //		return lesson;
 //	}
 
-//	Í¨¹ıµØÖ·ÏÔÊ¾
+//	é€šè¿‡åœ°å€æ˜¾ç¤º
 	@Override
 	public List<AddressandLesson> findLessonsByAddress(int qid) throws Exception {
 		List<AddressandLesson> lists = new ArrayList<>();
@@ -70,7 +70,7 @@ public class FrontLessonServiceBean implements FrontLessonService {
 		return lists;
 	}
 
-//	ÊÔÌı¿Î
+//	è¯•å¬è¯¾
 	@Override
 	public List<FreeListenByAddress> findFreeListens(int qid) throws Exception {
 		List<FreeListenByAddress> freelistenByAddresslist = new ArrayList<>();

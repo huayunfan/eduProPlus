@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -17,8 +18,10 @@ public class BackLoginHandler {
 
     @RequestMapping(value = "/back_login")
     @ResponseBody
-    public String Login(HttpServletRequest request,String username,String password){
+    public String Login(HttpServletRequest request, String username, String password, HttpServletResponse response){
         System.out.println(username+" "+password);
+        response.addHeader( "Cache-Control", "no-store");
+        response.addHeader( "Cache-Control", "must-revalidate");
         User user=userService.getUserByName(username);
         System.out.println(user.getUsername()+" "+user.getUserpassword());
         if (user==null) {
@@ -26,6 +29,7 @@ public class BackLoginHandler {
         }else if (user.getUserpassword().equals(password)){
             HttpSession session=request.getSession();
             session.setAttribute("user",user);
+
             return "{\"result\":\"success\"}";
         }else {
             return "{\"result\":\"failed\"}";
