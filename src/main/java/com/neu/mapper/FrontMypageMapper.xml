@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.neu.mapper.FrontMypageMapper">
+
+	<select id="signin" resultType="int" >
+	SELECT count(*) FROM signin where uid=#{param1} and signtime=#{param2}
+	</select>
+	
+	<update id="addscore" parameterType="int">
+	
+	update userlist set score=score+10 where uid = #{uid}
+	
+	</update>
+	
+	
+	
+    <insert id="addrecord" >
+    
+    	insert into signin (uid,signtime) values (#{param1},#{param2})
+    	
+    </insert>
+	
+
+</mapper>
