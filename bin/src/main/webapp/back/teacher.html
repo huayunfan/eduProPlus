@@ -49,7 +49,7 @@
                     for (var i = 0; i < data.length; i++) {
                         var tr = '<tr id="tid_'+data[i].tid+'">';
                         tr += '<td>' + data[i].tname + '</td>';
-                        tr += '<td>' + '<img src="../upload/'+data[i].tphoto + '"/></td>';
+                        tr += '<td>' + '<img src="'+data[i].tphoto + '"/></td>';
                         tr += '<td>' + data[i].introduction + '</td>';
                         tr+='<td>\n' +
                             '            <button class="layui-btn layui-btn-primary layui-btn-sm" onclick="window.location.href=\'edit_teacher.html?id=' +data[i].tid+

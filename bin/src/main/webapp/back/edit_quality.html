@@ -141,7 +141,7 @@
                 success: function (data) {
                     console.log(data);
                     $("#lname").val(data.lname);
-                    $("#demo1").attr('src', '/upload/' + data.imgurl);
+                    $("#demo1").attr('src', '' + data.imgurl);
                     ue.setContent(data.ldesc);
                     img = data.imgurl;
                     $("#status").val(data.status);

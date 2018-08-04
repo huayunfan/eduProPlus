@@ -1,7 +1,1 @@
-/target/
-/out/
-/.idea/
-/.settings/
-!.gitignore
-eduPro.iml
-/.classpath
+/bin/

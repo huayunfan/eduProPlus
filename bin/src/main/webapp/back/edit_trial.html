@@ -108,7 +108,7 @@
                 success: function (data) {
                     console.log(data);
                     $("#title").val(data.title);
-                    $("#demo1").attr('src', '/upload/' + data.imgurl);
+                    $("#demo1").attr('src', '' + data.imgurl);
                     ue.setContent(data.fdesc);
                     img = data.imgurl;
                     $("#status").val(data.status);
